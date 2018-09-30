@@ -25,17 +25,31 @@ public partial class MainWindow
 	
 	private global::Gtk.Action ExpressoRegularAction;
 	
+	private global::Gtk.Action AbrirAction1;
+	
+	private global::Gtk.Action AutomatoAction;
+	
+	private global::Gtk.Action SalvarAction1;
+	
+	private global::Gtk.Action AutomatoAction1;
+	
 	private global::Gtk.VBox vbox2;
 	
 	private global::Gtk.MenuBar menubar2;
 	
 	private global::Gtk.Notebook notebook1;
 	
+	private global::Gtk.ScrolledWindow scrolledwindow1;
+	
 	private global::Gtk.Label label2;
 	
-	private global::Gtk.Label label3;
+	private global::Gtk.Fixed fixed2;
 	
-	private global::Gtk.Label label1;
+	private global::Gtk.Label label4;
+	
+	private global::Gtk.Fixed fixed3;
+	
+	private global::Gtk.Label label5;
 
 	protected virtual void Build ()
 	{
@@ -73,6 +87,18 @@ public partial class MainWindow
 		this.ExpressoRegularAction = new global::Gtk.Action ("ExpressoRegularAction", global::Mono.Unix.Catalog.GetString ("Expressão Regular"), null, null);
 		this.ExpressoRegularAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Expressão Regular");
 		w1.Add (this.ExpressoRegularAction, null);
+		this.AbrirAction1 = new global::Gtk.Action ("AbrirAction1", global::Mono.Unix.Catalog.GetString ("Abrir"), null, null);
+		this.AbrirAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("Abrir");
+		w1.Add (this.AbrirAction1, null);
+		this.AutomatoAction = new global::Gtk.Action ("AutomatoAction", global::Mono.Unix.Catalog.GetString ("Automato"), null, null);
+		this.AutomatoAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Automato");
+		w1.Add (this.AutomatoAction, null);
+		this.SalvarAction1 = new global::Gtk.Action ("SalvarAction1", global::Mono.Unix.Catalog.GetString ("Salvar"), null, null);
+		this.SalvarAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("Salvar");
+		w1.Add (this.SalvarAction1, null);
+		this.AutomatoAction1 = new global::Gtk.Action ("AutomatoAction1", global::Mono.Unix.Catalog.GetString ("Automato"), null, null);
+		this.AutomatoAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("Automato");
+		w1.Add (this.AutomatoAction1, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -83,7 +109,7 @@ public partial class MainWindow
 		this.vbox2.Name = "vbox2";
 		this.vbox2.Spacing = 6;
 		// Container child vbox2.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><menubar name='menubar2'><menu name='ArquivoAction1' action='ArquivoAction1'/><menu name='EditarAction1' action='EditarAction1'/><menu name='InserirAction' action='InserirAction'><menuitem name='AutmatoAction' action='AutmatoAction'/><menuitem name='GramticaRegularAction' action='GramticaRegularAction'/><menuitem name='ExpressoRegularAction' action='ExpressoRegularAction'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubar2'><menu name='ArquivoAction1' action='ArquivoAction1'><menu name='AbrirAction1' action='AbrirAction1'><menuitem name='AutomatoAction' action='AutomatoAction'/></menu><menu name='SalvarAction1' action='SalvarAction1'><menuitem name='AutomatoAction1' action='AutomatoAction1'/></menu></menu><menu name='EditarAction1' action='EditarAction1'/><menu name='InserirAction' action='InserirAction'><menuitem name='AutmatoAction' action='AutmatoAction'/><menuitem name='GramticaRegularAction' action='GramticaRegularAction'/><menuitem name='ExpressoRegularAction' action='ExpressoRegularAction'/></menu></menubar></ui>");
 		this.menubar2 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar2")));
 		this.menubar2.Name = "menubar2";
 		this.vbox2.Add (this.menubar2);
@@ -96,33 +122,44 @@ public partial class MainWindow
 		this.notebook1.CanFocus = true;
 		this.notebook1.Name = "notebook1";
 		this.notebook1.CurrentPage = 0;
+		// Container child notebook1.Gtk.Notebook+NotebookChild
+		this.scrolledwindow1 = new global::Gtk.ScrolledWindow ();
+		this.scrolledwindow1.CanFocus = true;
+		this.scrolledwindow1.Name = "scrolledwindow1";
+		this.scrolledwindow1.ShadowType = ((global::Gtk.ShadowType)(1));
+		this.notebook1.Add (this.scrolledwindow1);
 		// Notebook tab
-		global::Gtk.Label w3 = new global::Gtk.Label ();
-		w3.Visible = true;
-		this.notebook1.Add (w3);
 		this.label2 = new global::Gtk.Label ();
 		this.label2.Name = "label2";
 		this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Autômato");
-		this.notebook1.SetTabLabel (w3, this.label2);
+		this.notebook1.SetTabLabel (this.scrolledwindow1, this.label2);
 		this.label2.ShowAll ();
+		// Container child notebook1.Gtk.Notebook+NotebookChild
+		this.fixed2 = new global::Gtk.Fixed ();
+		this.fixed2.Name = "fixed2";
+		this.fixed2.HasWindow = false;
+		this.notebook1.Add (this.fixed2);
+		global::Gtk.Notebook.NotebookChild w4 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.fixed2]));
+		w4.Position = 1;
 		// Notebook tab
-		global::Gtk.Label w4 = new global::Gtk.Label ();
-		w4.Visible = true;
-		this.notebook1.Add (w4);
-		this.label3 = new global::Gtk.Label ();
-		this.label3.Name = "label3";
-		this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Gramática Regular");
-		this.notebook1.SetTabLabel (w4, this.label3);
-		this.label3.ShowAll ();
+		this.label4 = new global::Gtk.Label ();
+		this.label4.Name = "label4";
+		this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Gramática Regular");
+		this.notebook1.SetTabLabel (this.fixed2, this.label4);
+		this.label4.ShowAll ();
+		// Container child notebook1.Gtk.Notebook+NotebookChild
+		this.fixed3 = new global::Gtk.Fixed ();
+		this.fixed3.Name = "fixed3";
+		this.fixed3.HasWindow = false;
+		this.notebook1.Add (this.fixed3);
+		global::Gtk.Notebook.NotebookChild w5 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.fixed3]));
+		w5.Position = 2;
 		// Notebook tab
-		global::Gtk.Label w5 = new global::Gtk.Label ();
-		w5.Visible = true;
-		this.notebook1.Add (w5);
-		this.label1 = new global::Gtk.Label ();
-		this.label1.Name = "label1";
-		this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("Expressão Regular");
-		this.notebook1.SetTabLabel (w5, this.label1);
-		this.label1.ShowAll ();
+		this.label5 = new global::Gtk.Label ();
+		this.label5.Name = "label5";
+		this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("Expressão Regular");
+		this.notebook1.SetTabLabel (this.fixed3, this.label5);
+		this.label5.ShowAll ();
 		this.vbox2.Add (this.notebook1);
 		global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.notebook1]));
 		w6.Position = 1;
@@ -134,5 +171,7 @@ public partial class MainWindow
 		this.DefaultHeight = 306;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+		this.AutmatoAction.Activated += new global::System.EventHandler (this.inserirAutomato);
+		this.AutomatoAction1.Activated += new global::System.EventHandler (this.OnAutomatoAction1Activated);
 	}
 }
