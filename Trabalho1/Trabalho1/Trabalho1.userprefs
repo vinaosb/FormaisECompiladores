@@ -1,10 +1,11 @@
 ﻿<Properties StartupItem="Trabalho1.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MainWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Automato.cs">
     <Files>
-      <File FileName="MainWindow.cs" Line="5" Column="1" />
-      <File FileName="NovoAutomato.cs" Line="3" Column="34" />
-      <File FileName="SalvarAutomato.cs" Line="8" Column="4" />
+      <File FileName="MainWindow.cs" Line="66" Column="42" />
+      <File FileName="Crud.cs" Line="33" Column="44" />
+      <File FileName="NovoAutomato.cs" Line="13" Column="18" />
+      <File FileName="Automato.cs" Line="108" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

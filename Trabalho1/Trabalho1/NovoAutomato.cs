@@ -24,8 +24,9 @@ namespace Trabalho1 {
 			this.Hide ();
 		}
 
-		public List<string[]> getAutomato() {
-			return automato;
+		public Automato getAutomato() {
+			Automato novo = new Automato (automato);
+			return novo;
 		}
 	}
 }
