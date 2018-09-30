@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Trabalho1 {
 	public class Automato {
-		private List<string[]> automato;
+		public List<string[]> automato;
 
 		private string procuraEstadoInicial() {
 			string estadoInicial = "";
