@@ -24,7 +24,7 @@ namespace Trabalho1
             }
         }
 
-        public void Load<T> (T c)
+        public void Load<T> (ref T c)
         {
             using (Stream stream = File.OpenRead(Environment.CurrentDirectory + Path))
             {
