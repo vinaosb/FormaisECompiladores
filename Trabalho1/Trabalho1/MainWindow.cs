@@ -1,5 +1,6 @@
 ﻿using System;
 using Gtk;
+using Stetic;
 
 public partial class MainWindow: Gtk.Window
 {
