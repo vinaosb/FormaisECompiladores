@@ -9,7 +9,7 @@ namespace Trabalho1
         private string Path;
         public Crud(string P)
         {
-            Path = "\\" + P + ".xml";
+            Path = "/" + P + ".xml";
         }
 
         public void Store<T> (T c)
@@ -24,13 +24,13 @@ namespace Trabalho1
             }
         }
 
-        public void Load<T> (ref T c)
+        public void Load<T> (T c)
         {
             using (Stream stream = File.OpenRead(Environment.CurrentDirectory + Path))
             {
                 XmlSerializer xmlSer = new XmlSerializer(typeof(T));
 
-                c = (T) xmlSer.Deserialize(stream);
+                xmlSer.Deserialize(stream);
             }
         }
     }
