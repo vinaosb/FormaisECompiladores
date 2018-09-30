@@ -30,7 +30,7 @@ namespace Trabalho1
             {
                 XmlSerializer xmlSer = new XmlSerializer(typeof(T));
 
-                xmlSer.Deserialize(stream);
+                c = (T) xmlSer.Deserialize(stream);
             }
         }
     }
