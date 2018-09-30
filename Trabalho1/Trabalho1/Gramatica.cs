@@ -17,6 +17,7 @@ namespace Trabalho1
             public List<string> Proximos;
         }
 
+        public string SimboloInicial = "";
         public List<string> SimbolosFinais = new List<string>();
         public List<string> SimbolosIntermediarios = new List<string>();
         public List<Regular> Producoes = new List<Regular>();
@@ -48,6 +49,8 @@ namespace Trabalho1
         public void AddProducao (Regular p)
         {
             AddSimbolo(p.Atual);
+            if (SimboloInicial.Equals(""))
+                SimboloInicial = p.Atual;
 
             foreach (var s in p.Proximos)
             {
@@ -55,6 +58,16 @@ namespace Trabalho1
             }
 
             Producoes.Add(p);
+        }
+
+        public void DelProducao (Regular p)
+        {
+            if (Producoes.Contains(p))
+            {
+                Producoes.Remove(p);
+            }
+            if (p.Atual.Equals(SimboloInicial))
+                SimboloInicial = "";
         }
     }
 }
