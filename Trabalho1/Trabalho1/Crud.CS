@@ -14,24 +14,24 @@ namespace Trabalho1
 
         public void Store<T> (T c)
         {
-            Stream stream = File.OpenWrite(Environment.CurrentDirectory + Path);
+            if (File.Exists(Path))
+                File.Delete(Path);
+            using (Stream stream = File.OpenWrite(Environment.CurrentDirectory + Path))
+            {
+                XmlSerializer xmlSer = new XmlSerializer(typeof(T));
 
-            XmlSerializer xmlSer = new XmlSerializer(typeof(T));
-
-            xmlSer.Serialize(stream, c);
-
-            stream.Close();
+                xmlSer.Serialize(stream, c);
+            }
         }
 
         public void Load<T> (T c)
         {
-            Stream stream = File.OpenRead(Environment.CurrentDirectory + Path);
+            using (Stream stream = File.OpenRead(Environment.CurrentDirectory + Path))
+            {
+                XmlSerializer xmlSer = new XmlSerializer(typeof(T));
 
-            XmlSerializer xmlSer = new XmlSerializer(typeof(T));
-
-            xmlSer.Deserialize(stream);
-
-            stream.Close();
+                xmlSer.Deserialize(stream);
+            }
         }
     }
 }
