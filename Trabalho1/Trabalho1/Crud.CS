@@ -9,7 +9,7 @@ namespace Trabalho1
         private string Path;
         Crud(string P)
         {
-            Path = P;
+            Path = "\\" + P + ".xml";
         }
 
         public void Store<T> (T c)
