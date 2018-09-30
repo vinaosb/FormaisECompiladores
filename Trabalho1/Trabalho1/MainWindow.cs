@@ -18,7 +18,8 @@ public partial class MainWindow: Gtk.Window {
 
 	protected void inserirAutomato (object sender, EventArgs e) {
 		novo = new NovoAutomato (this);
-		automato = novo.getAutomato ();
+		Automato novoAutomato = novo.getAutomato ();
+		automato = novoAutomato.getAutomato ();
 	}
 
 	public void atualizarAutomato() {
@@ -36,7 +37,7 @@ public partial class MainWindow: Gtk.Window {
 		lbl3.Show ();
 		uint inc = 2;
 		for (int i = 0; i < automato.Count; i++) {
-			string[] p = novo.getAutomato()[i];
+			string[] p = automato[i];
 			Label lbl4 = new Gtk.Label (p[0]);
 			Label lbl5 = new Gtk.Label (p[1]);
 			Label lbl6 = new Gtk.Label (p[2]);
@@ -53,7 +54,15 @@ public partial class MainWindow: Gtk.Window {
 
 	protected void OnAutomatoAction1Activated (object sender, EventArgs e) {
         Crud crud = new Crud("Automato");
-
         crud.Store<List<string[]>>(automato);
+	}
+
+	protected void OnAutomatoActionActivated (object sender, EventArgs e) {
+		Crud crud = new Crud("Automato");
+		crud.Load<List<string[]>>(automato);
+	}
+
+	protected void OnDeterminizarAutmatoActionActivated (object sender, EventArgs e) {
+		Automato atm = new Automato (automato);
 	}
 }
