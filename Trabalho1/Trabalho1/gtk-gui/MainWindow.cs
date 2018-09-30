@@ -33,6 +33,8 @@ public partial class MainWindow
 	
 	private global::Gtk.Action AutomatoAction1;
 	
+	private global::Gtk.Action DeterminizarAutmatoAction;
+	
 	private global::Gtk.VBox vbox2;
 	
 	private global::Gtk.MenuBar menubar2;
@@ -99,6 +101,9 @@ public partial class MainWindow
 		this.AutomatoAction1 = new global::Gtk.Action ("AutomatoAction1", global::Mono.Unix.Catalog.GetString ("Automato"), null, null);
 		this.AutomatoAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("Automato");
 		w1.Add (this.AutomatoAction1, null);
+		this.DeterminizarAutmatoAction = new global::Gtk.Action ("DeterminizarAutmatoAction", global::Mono.Unix.Catalog.GetString ("Determinizar Autômato"), null, null);
+		this.DeterminizarAutmatoAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Determinizar Autômato");
+		w1.Add (this.DeterminizarAutmatoAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -109,7 +114,7 @@ public partial class MainWindow
 		this.vbox2.Name = "vbox2";
 		this.vbox2.Spacing = 6;
 		// Container child vbox2.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><menubar name='menubar2'><menu name='ArquivoAction1' action='ArquivoAction1'><menu name='AbrirAction1' action='AbrirAction1'><menuitem name='AutomatoAction' action='AutomatoAction'/></menu><menu name='SalvarAction1' action='SalvarAction1'><menuitem name='AutomatoAction1' action='AutomatoAction1'/></menu></menu><menu name='EditarAction1' action='EditarAction1'/><menu name='InserirAction' action='InserirAction'><menuitem name='AutmatoAction' action='AutmatoAction'/><menuitem name='GramticaRegularAction' action='GramticaRegularAction'/><menuitem name='ExpressoRegularAction' action='ExpressoRegularAction'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubar2'><menu name='ArquivoAction1' action='ArquivoAction1'><menu name='AbrirAction1' action='AbrirAction1'><menuitem name='AutomatoAction' action='AutomatoAction'/></menu><menu name='SalvarAction1' action='SalvarAction1'><menuitem name='AutomatoAction1' action='AutomatoAction1'/></menu></menu><menu name='EditarAction1' action='EditarAction1'><menuitem name='DeterminizarAutmatoAction' action='DeterminizarAutmatoAction'/></menu><menu name='InserirAction' action='InserirAction'><menuitem name='AutmatoAction' action='AutmatoAction'/><menuitem name='GramticaRegularAction' action='GramticaRegularAction'/><menuitem name='ExpressoRegularAction' action='ExpressoRegularAction'/></menu></menubar></ui>");
 		this.menubar2 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar2")));
 		this.menubar2.Name = "menubar2";
 		this.vbox2.Add (this.menubar2);
@@ -172,6 +177,8 @@ public partial class MainWindow
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.AutmatoAction.Activated += new global::System.EventHandler (this.inserirAutomato);
+		this.AutomatoAction.Activated += new global::System.EventHandler (this.OnAutomatoActionActivated);
 		this.AutomatoAction1.Activated += new global::System.EventHandler (this.OnAutomatoAction1Activated);
+		this.DeterminizarAutmatoAction.Activated += new global::System.EventHandler (this.OnDeterminizarAutmatoActionActivated);
 	}
 }
