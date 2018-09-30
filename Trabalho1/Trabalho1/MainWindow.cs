@@ -67,7 +67,7 @@ public partial class MainWindow : Gtk.Window
     protected void OnAutomatoActionActivated(object sender, EventArgs e)
     {
         Crud crud = new Crud("Automato");
-        crud.Load<List<string[]>>(automato);
+        crud.Load<List<string[]>>(ref automato);
     }
 
     protected void OnDeterminizarAutmatoActionActivated(object sender, EventArgs e)
