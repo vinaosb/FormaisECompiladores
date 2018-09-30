@@ -17,9 +17,7 @@ namespace Trabalho1
 
         public void Store<T>(T c)
         {
-            if (File.Exists(Path))
-                File.Delete(Path);
-            using (Stream stream = File.OpenWrite(Environment.CurrentDirectory + Path))
+            using (Stream stream = File.Create(Environment.CurrentDirectory + Path))
             {
                 XmlSerializer xmlSer = new XmlSerializer(typeof(T));
 
