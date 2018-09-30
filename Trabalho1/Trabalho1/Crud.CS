@@ -9,7 +9,10 @@ namespace Trabalho1
         private string Path;
         public Crud(string P)
         {
-            Path = "\\" + P + ".xml";
+            if (Environment.OSVersion.Platform.Equals(PlatformID.Unix))
+                Path = "/" + P + ".xml";
+            else
+                Path = "\\" + P + ".xml";
         }
 
         public void Store<T> (T c)
