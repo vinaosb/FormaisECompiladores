@@ -52,6 +52,8 @@ public partial class MainWindow: Gtk.Window {
 	}
 
 	protected void OnAutomatoAction1Activated (object sender, EventArgs e) {
-		SalvarAutomato salvar = new SalvarAutomato ();
+        Crud crud = new Crud("Automato");
+
+        crud.Store<List<string[]>>(automato);
 	}
 }

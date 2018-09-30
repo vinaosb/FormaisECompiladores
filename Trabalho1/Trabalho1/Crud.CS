@@ -7,7 +7,7 @@ namespace Trabalho1
     public class Crud
     {
         private string Path;
-        Crud(string P)
+        public Crud(string P)
         {
             Path = "\\" + P + ".xml";
         }
