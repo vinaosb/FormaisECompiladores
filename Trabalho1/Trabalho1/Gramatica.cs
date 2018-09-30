@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trabalho1
 {
+    [Serializable]
     public class Gramatica
     {
         public string ID;
