@@ -60,14 +60,12 @@ namespace Trabalho1
             Producoes.Add(p);
         }
 
-        public void DelProducao (Regular p)
+        public void Clear ()
         {
-            if (Producoes.Contains(p))
-            {
-                Producoes.Remove(p);
-            }
-            if (p.Atual.Equals(SimboloInicial))
-                SimboloInicial = "";
+            SimboloInicial = "";
+            SimbolosFinais.Clear();
+            SimbolosIntermediarios.Clear();
+            Producoes.Clear();
         }
     }
 }
