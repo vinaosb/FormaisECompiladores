@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Trabalho1 {
 	public class Automato {
+        public int ID = 0;
 		public string estadoInicial = "";
 		public HashSet<string> estadosFinais = new HashSet<string>();
 		public Dictionary<string[],Transicao> transicoes = new Dictionary<string[], Transicao>();
@@ -20,11 +21,11 @@ namespace Trabalho1 {
             }
 		}
 
-		public Automato () {
-			
+		public Automato (int id) {
+            ID = id;
 		}
 
-        public Automato (Automato a)
+        public Automato (int id, Automato a) : this(id)
         {
             this.simbolos.UnionWith(a.simbolos);
             this.estados.UnionWith(a.estados);
@@ -101,6 +102,17 @@ namespace Trabalho1 {
                 simbolos.Add(s);
         }
 
+        public Transicao GetTransicao(string estado, string simbolo)
+        {
+            Transicao t = new Transicao();
+            string[] temp = { estado, simbolo };
+
+            if (transicoes.ContainsKey(temp))
+                transicoes.TryGetValue(temp, out t);
+
+            return t;
+        }
+
         public void Clear()
         {
             transicoes.Clear();
@@ -112,7 +124,7 @@ namespace Trabalho1 {
 
         public Automato Uniao(Automato a2)
         {
-            Automato r = new Automato(this);
+            Automato r = new Automato(this.ID * a2.ID, this);
             
             r.estadosFinais.UnionWith(a2.estadosFinais);
             r.simbolos.UnionWith(a2.simbolos);
@@ -132,7 +144,7 @@ namespace Trabalho1 {
 
         public Automato Interseccao (Automato a2)
         {
-            Automato r = new Automato(this);
+            Automato r = new Automato(this.ID * a2.ID, this);
             r.simbolos.UnionWith(a2.simbolos);
             r.estados.UnionWith(a2.estados);
 
