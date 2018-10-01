@@ -170,13 +170,27 @@ namespace Trabalho1 {
         public Automato Minimizacao(Automato automato)
         {
             Automato miniAuto = new Automato(this.ID+1);
-            miniAuto = eliminaEstadosInalcancaveis(automato, miniAuto);
+            miniAuto.estadoInicial = automato.estadoInicial;
+            miniAuto.simbolos = automato.simbolos;
+
+            miniAuto = eliminaEstadosInalcancaveis(automato, miniAuto, automato.estadoInicial);
             miniAuto = eliminaEstadosMortos(miniAuto);
+
             //eliminateEqStates(miniAuto);
             return miniAuto;
         }
-        public Automato eliminaEstadosInalcancaveis(Automato automato, Automato miniAuto)
+        public Automato eliminaEstadosInalcancaveis(Automato automato, Automato miniAuto, string estado)
         {
+            foreach (var s in automato.simbolos)
+            {
+                var temp = automato.GetTransicao(estado, s).estado2;
+                foreach (var e in temp)
+                {
+                    miniAuto.addEstado(e);
+                    miniAuto.addTransicao(estado, s, temp);
+                    eliminaEstadosInalcancaveis(automato,miniAuto,e);
+                }
+            }
             return miniAuto;   
         }
         public Automato eliminaEstadosMortos(Automato automato)
