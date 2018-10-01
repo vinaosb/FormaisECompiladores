@@ -5,7 +5,7 @@ namespace Trabalho1 {
 	public class Automato {
 		public string estadoInicial = "";
 		public HashSet<string> estadosFinais = new HashSet<string>();
-		public Dictionary<string,Transicao> transicoes = new Dictionary<string, Transicao>();
+		public Dictionary<string[],Transicao> transicoes = new Dictionary<string[], Transicao>();
         public HashSet<string> estados = new HashSet<string>();
         public HashSet<string> simbolos = new HashSet<string>();
 
@@ -53,8 +53,9 @@ namespace Trabalho1 {
         public Transicao GeraTransicao (string e1, string s, HashSet<string> e2)
         {
             Transicao t = new Transicao();
-            if (transicoes.ContainsKey(e1))
-                transicoes.TryGetValue(e1, out t);
+            string[] temp = { e1, s };
+            if (transicoes.ContainsKey(temp))
+                transicoes.TryGetValue(temp, out t);
             char[] delimiter = {'*','+' };
             if (e1.Contains("*") | e1.Contains("+"))
                 e1 = e1.Split(delimiter)[1];
@@ -79,7 +80,8 @@ namespace Trabalho1 {
         {
             if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
             {
-                transicoes.Add(t.estado1, t);
+                string[] temp = {t.estado1, t.simbolo };
+                transicoes.Add(temp, t);
             }
         }
 
@@ -88,7 +90,8 @@ namespace Trabalho1 {
             Transicao t = GeraTransicao(e1, s, e2);
             if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
             {
-                transicoes.Add(t.estado1, t);
+                string[] temp = { t.estado1, t.simbolo };
+                transicoes.Add(temp, t);
             }
         }
 
