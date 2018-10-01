@@ -166,5 +166,22 @@ namespace Trabalho1 {
 
             return r;
         }
-	}
+
+        public Automato Minimizacao(Automato automato)
+        {
+            Automato miniAuto = new Automato(this.ID+1);
+            miniAuto = eliminaEstadosInalcancaveis(automato, miniAuto);
+            miniAuto = eliminaEstadosMortos(miniAuto);
+            //eliminateEqStates(miniAuto);
+            return miniAuto;
+        }
+        public Automato eliminaEstadosInalcancaveis(Automato automato, Automato miniAuto)
+        {
+            return miniAuto;   
+        }
+        public Automato eliminaEstadosMortos(Automato automato)
+        {
+            return automato;
+        }
+    }
 }
