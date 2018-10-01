@@ -23,7 +23,7 @@ public partial class MainWindow : Gtk.Window
     {
         novo = new NovoAutomato(this);
         Automato novoAutomato = novo.getAutomato();
-        automato = novoAutomato.getAutomato();
+        //automato = novoAutomato.getAutomato();
     }
 
     public void atualizarAutomato()
@@ -73,6 +73,6 @@ public partial class MainWindow : Gtk.Window
 
     protected void OnDeterminizarAutmatoActionActivated(object sender, EventArgs e)
     {
-        Automato atm = new Automato(automato);
+        //Automato atm = new Automato(automato);
     }
 }

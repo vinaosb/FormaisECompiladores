@@ -31,7 +31,7 @@ namespace Trabalho1
 
         public Automato getAutomato()
         {
-            Automato novo = new Automato(automato);
+            Automato novo = new Automato();
             return novo;
         }
     }
