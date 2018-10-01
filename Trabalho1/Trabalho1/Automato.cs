@@ -3,57 +3,153 @@ using System.Collections.Generic;
 
 namespace Trabalho1 {
 	public class Automato {
-		private string estadoInicial;
-		private HashSet<string> estadosFinais;
-		private HashSet<Transicao> transicoes;
+		public string estadoInicial = "";
+		public HashSet<string> estadosFinais = new HashSet<string>();
+		public Dictionary<string,Transicao> transicoes = new Dictionary<string, Transicao>();
+        public HashSet<string> estados = new HashSet<string>();
+        public HashSet<string> simbolos = new HashSet<string>();
 
-		private struct Transicao {
-			public string estado1;
-			public string simbolo;
-			public string estado2;
+		public class Transicao {
+			public string estado1 = "";
+			public string simbolo = "";
+			public HashSet<string> estado2 = new HashSet<string>();
+
+            public Transicao()
+            {
+
+            }
 		}
 
 		public Automato () {
 			
 		}
 
-		public void setEstadoInicial(string estadoInicial) {
-			this.estadoInicial = estadoInicial;
-			procuraEstadosFinais ();
-		}
+        public Automato (Automato a)
+        {
+            this.simbolos.UnionWith(a.simbolos);
+            this.estados.UnionWith(a.estados);
+            this.estadoInicial = a.estadoInicial;
+            this.estadosFinais.UnionWith(a.estadosFinais);
 
-		private void procuraEstadosFinais() {
-			if (estadoInicial.Contains("*")) {
-				this.estadosFinais.Add (estadoInicial);
-			}
-			for (int i = 0; i < transicoes.Count; i++) {
-				Transicao T = transicoes [i];
-				if (T.estado1.Contains("*")) {
-					this.estadosFinais.Add (T.estado1);
-				}
-				if (T.estado2.Contains("*")) {
-					this.estadosFinais.Add (T.estado2);
-				}
-			}
-		}
+            foreach (var t in a.transicoes)
+            {
+                transicoes.Add(t.Key,t.Value);
+            }
+        }
+        
+        public void addEstado(string e)
+        {
+            if (e.Contains("+"))
+                estadoInicial = e.Split('+')[1];
+            if (e.Contains("*") & !estadosFinais.Contains(e.Split('*')[1]))
+                estadosFinais.Add(e.Split('*')[1]);
+            char[] delimiter = {'+', '*' };
+            if (e.Contains("+") | e.Contains("*"))
+                e = e.Split(delimiter)[1];
+            if (!estados.Contains(e))
+                estados.Add(e);
+        }
 
-		public void setTransicao(string estado1, string simbolo, string estado2) {
-			Transicao T = new Transicao ();
-			T.estado1 = estado1;
-			T.simbolo = simbolo;
-			T.estado2 = estado2;
-		}
+        public Transicao GeraTransicao (string e1, string s, HashSet<string> e2)
+        {
+            Transicao t = new Transicao();
+            if (transicoes.ContainsKey(e1))
+                transicoes.TryGetValue(e1, out t);
+            char[] delimiter = {'*','+' };
+            if (e1.Contains("*") | e1.Contains("+"))
+                e1 = e1.Split(delimiter)[1];
+            t.estado1 = e1;
+            t.simbolo = s;
+            foreach (string e in e2)
+            {
+                if (e.Contains("*") | e.Contains("+"))
+                {
+                    t.estado2.Add(e.Split(delimiter)[1]);
+                }
+                else
+                {
+                    t.estado2.Add(e);
+                }
+            }
 
-		public string getEstadoInicial() {
-			return estadoInicial;
-		}
-	
-		public HashSet<string> getEstadosFinais() {
-			return estadosFinais;
-		}
+            return t;
+        }
 
-		public HashSet<Transicao> getTransicoes() {
-			return transicoes;
-		}
+        public void addTransicao(Transicao t)
+        {
+            if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
+            {
+                transicoes.Add(t.estado1, t);
+            }
+        }
+
+        public void addTransicao(string e1, string s, HashSet<string> e2)
+        {
+            Transicao t = GeraTransicao(e1, s, e2);
+            if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
+            {
+                transicoes.Add(t.estado1, t);
+            }
+        }
+
+        public void addSimbolo(string s)
+        {
+            if (!simbolos.Contains(s))
+                simbolos.Add(s);
+        }
+
+        public void Clear()
+        {
+            transicoes.Clear();
+            estados.Clear();
+            estadoInicial = "";
+            estadosFinais.Clear();
+            simbolos.Clear();
+        }
+
+        public Automato Uniao(Automato a2)
+        {
+            Automato r = new Automato(this);
+            
+            r.estadosFinais.UnionWith(a2.estadosFinais);
+            r.simbolos.UnionWith(a2.simbolos);
+
+            foreach (var tra in a2.transicoes)
+            {
+                r.addTransicao(tra.Value);
+            }
+
+            r.addEstado("+Uniao");
+            var temp = new HashSet<string>();
+            temp.Add(a2.estadoInicial);
+            temp.Add(this.estadoInicial);
+            r.addTransicao("+Uniao", "&", temp);
+            return r;
+        }
+
+        public Automato Interseccao (Automato a2)
+        {
+            Automato r = new Automato(this);
+            r.simbolos.UnionWith(a2.simbolos);
+            r.estados.UnionWith(a2.estados);
+
+            foreach (var tra in a2.transicoes)
+            {
+                r.addTransicao(tra.Value);
+            }
+
+            HashSet<string> temp = new HashSet<string>();
+            temp.Add(a2.estadoInicial);
+
+            foreach (var ef in r.estadosFinais)
+            {
+                r.addTransicao(ef, "&", temp);
+            }
+
+            r.estadosFinais.Clear();
+            r.estadosFinais.UnionWith(a2.estadosFinais);
+
+            return r;
+        }
 	}
 }
