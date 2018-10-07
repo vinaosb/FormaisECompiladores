@@ -49,9 +49,32 @@ namespace Trabalho1 {
 				e = e.Split(delimiter)[1];
 			if (!estados.Contains(e))
 				estados.Add(e);
-		}
+        }
 
-		public Transicao GeraTransicao (string e1, string s, HashSet<string> e2)
+        public Transicao GeraTransicao(string e1, string s, string e2)
+        {
+            Transicao t = new Transicao();
+            string[] temp = { e1, s };
+            if (transicoes.ContainsKey(temp))
+                transicoes.TryGetValue(temp, out t);
+            char[] delimiter = { '*', '+' };
+            if (e1.Contains("*") || e1.Contains("+"))
+                e1 = e1.Split(delimiter)[1];
+            t.estado1 = e1;
+            t.simbolo = s;
+            if (!t.estado2.Contains(e2))
+                if (e2.Contains("*") || e2.Contains("+"))
+                {
+                    t.estado2.Add(e2.Split(delimiter)[1]);
+                }
+                else
+                {
+                    t.estado2.Add(e2);
+                }
+            return t;
+        }
+
+            public Transicao GeraTransicao (string e1, string s, HashSet<string> e2)
 		{
 			Transicao t = new Transicao();
 			string[] temp = { e1, s };
