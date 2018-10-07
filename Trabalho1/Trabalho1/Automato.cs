@@ -102,21 +102,64 @@ namespace Trabalho1 {
 
 		public void addTransicao(Transicao t)
 		{
+            Transicao te = new Transicao();
 			if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
 			{
 				string[] temp = {t.estado1, t.simbolo };
-				transicoes.Add(temp, t);
+                if (!transicoes.ContainsKey(temp))
+                    transicoes.Add(temp, t);
+                else
+                {
+                    transicoes.TryGetValue(temp, out te);
+                    foreach (var item in t.estado2)
+                    {
+                        if (!te.estado2.Contains(item))
+                            te.estado2.Add(item);
+                    }
+                }
+                    
 			}
 		}
+        public void addTransicao(string e1, string s, string e2)
+        {
+            Transicao t = GeraTransicao(e1, s, e2);
+            Transicao te = new Transicao();
+            if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
+            {
+                string[] temp = { t.estado1, t.simbolo };
+                if (!transicoes.ContainsKey(temp))
+                    transicoes.Add(temp, t);
+                else
+                {
+                    transicoes.TryGetValue(temp, out te);
+                    foreach (var item in t.estado2)
+                    {
+                        if (!te.estado2.Contains(item))
+                            te.estado2.Add(item);
+                    }
+                }
+            }
+        }
 
-		public void addTransicao(string e1, string s, HashSet<string> e2)
+        public void addTransicao(string e1, string s, HashSet<string> e2)
 		{
 			Transicao t = GeraTransicao(e1, s, e2);
+            Transicao te = new Transicao();
 			if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
 			{
 				string[] temp = { t.estado1, t.simbolo };
-				transicoes.Add(temp, t);
-			}
+                if (!transicoes.ContainsKey(temp))
+                    transicoes.Add(temp, t);
+                else
+                {
+                    transicoes.TryGetValue(temp, out te);
+                    foreach (var item in t.estado2)
+                    {
+                        if (!te.estado2.Contains(item))
+                            te.estado2.Add(item);
+                    }
+                }
+            }
 		}
 
 		public void addSimbolo(string s)
