@@ -9,15 +9,14 @@ namespace Trabalho1
         private string Path;
         public Crud(string P)
         {
-            if (Environment.OSVersion.Platform.Equals(PlatformID.Unix))
-                Path = "/" + P + ".xml";
-            else
-                Path = "\\" + P + ".xml";
+            Path = "/" + P + ".xml";
         }
 
-        public void Store<T>(T c)
+        public void Store<T> (T c)
         {
-            using (Stream stream = File.Create(Environment.CurrentDirectory + Path))
+            if (File.Exists(Path))
+                File.Delete(Path);
+            using (Stream stream = File.OpenWrite(Environment.CurrentDirectory + Path))
             {
                 XmlSerializer xmlSer = new XmlSerializer(typeof(T));
 
@@ -25,13 +24,13 @@ namespace Trabalho1
             }
         }
 
-        public void Load<T>(ref T c)
+        public void Load<T> (T c)
         {
             using (Stream stream = File.OpenRead(Environment.CurrentDirectory + Path))
             {
                 XmlSerializer xmlSer = new XmlSerializer(typeof(T));
 
-                c = (T)xmlSer.Deserialize(stream);
+                xmlSer.Deserialize(stream);
             }
         }
     }

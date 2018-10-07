@@ -80,6 +80,9 @@
     <Compile Include="gtk-gui\Trabalho1.NovoAutomato.cs" />
     <Compile Include="NovoAutomato.cs" />
     <Compile Include="Automato.cs" />
+    <Compile Include="gtk-gui\Trabalho1.NovaGramatica.cs" />
+    <Compile Include="AdicionarGramatica.cs" />
+    <Compile Include="gtk-gui\Trabalho1.AdicionarGramatica.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
