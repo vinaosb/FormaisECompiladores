@@ -74,7 +74,7 @@ namespace Trabalho1 {
             return t;
         }
 
-            public Transicao GeraTransicao (string e1, string s, HashSet<string> e2)
+        public Transicao GeraTransicao (string e1, string s, HashSet<string> e2)
 		{
 			Transicao t = new Transicao();
 			string[] temp = { e1, s };
