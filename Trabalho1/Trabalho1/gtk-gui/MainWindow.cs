@@ -3,55 +3,55 @@
 
 public partial class MainWindow
 {
-	private global::Gtk.UIManager UIManager;
+	public global::Gtk.UIManager UIManager;
 	
-	private global::Gtk.Action ArquivoAction;
+	public global::Gtk.Action ArquivoAction;
 	
-	private global::Gtk.Action EditarAction;
+	public global::Gtk.Action EditarAction;
 	
-	private global::Gtk.Action AbrirAction;
+	public global::Gtk.Action AbrirAction;
 	
-	private global::Gtk.Action SalvarAction;
+	public global::Gtk.Action SalvarAction;
 	
-	private global::Gtk.Action ArquivoAction1;
+	public global::Gtk.Action ArquivoAction1;
 	
-	private global::Gtk.Action EditarAction1;
+	public global::Gtk.Action EditarAction1;
 	
-	private global::Gtk.Action InserirAction;
+	public global::Gtk.Action InserirAction;
 	
-	private global::Gtk.Action AutmatoAction;
+	public global::Gtk.Action AutmatoAction;
 	
-	private global::Gtk.Action GramticaRegularAction;
+	public global::Gtk.Action GramticaRegularAction;
 	
-	private global::Gtk.Action ExpressoRegularAction;
+	public global::Gtk.Action ExpressoRegularAction;
 	
-	private global::Gtk.Action AbrirAction1;
+	public global::Gtk.Action AbrirAction1;
 	
-	private global::Gtk.Action AutomatoAction;
+	public global::Gtk.Action AutomatoAction;
 	
-	private global::Gtk.Action SalvarAction1;
+	public global::Gtk.Action SalvarAction1;
 	
-	private global::Gtk.Action AutomatoAction1;
+	public global::Gtk.Action AutomatoAction1;
 	
-	private global::Gtk.Action DeterminizarAutmatoAction;
+	public global::Gtk.Action DeterminizarAutmatoAction;
 	
-	private global::Gtk.VBox vbox2;
+	public global::Gtk.VBox vbox2;
 	
-	private global::Gtk.MenuBar menubar2;
+	public global::Gtk.MenuBar menubar2;
 	
-	private global::Gtk.Notebook notebook1;
+	public global::Gtk.Notebook notebook1;
 	
-	private global::Gtk.ScrolledWindow scrolledwindow1;
+	public global::Gtk.ScrolledWindow scrolledwindow1;
 	
-	private global::Gtk.Label label2;
+	public global::Gtk.Label label2;
 	
-	private global::Gtk.Fixed fixed2;
+	public global::Gtk.Fixed fixed2;
 	
-	private global::Gtk.Label label4;
+	public global::Gtk.Label label4;
 	
-	private global::Gtk.Fixed fixed3;
+	public global::Gtk.Fixed fixed3;
 	
-	private global::Gtk.Label label5;
+	public global::Gtk.Label label5;
 
 	protected virtual void Build ()
 	{
