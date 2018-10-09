@@ -42,7 +42,7 @@ namespace Trabalho1 {
         {
             if (e.Contains("+"))
                 estadoInicial = e.Split('+')[1];
-            if (e.Contains("*") & !estadosFinais.Contains(e.Split('*')[1]))
+            if (e.Contains("*") && !estadosFinais.Contains(e.Split('*')[1]))
                 estadosFinais.Add(e.Split('*')[1]);
             char[] delimiter = {'+', '*' };
             if (e.Contains("+") | e.Contains("*"))

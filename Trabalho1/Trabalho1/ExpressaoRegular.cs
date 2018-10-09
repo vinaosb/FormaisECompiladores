@@ -17,21 +17,80 @@ namespace Trabalho1
         }
         public Automato transformaERemAFD(string text)
         {
-            Console.WriteLine("start");
             Automato a = new Automato(1);
             regex = text;
             createTree(); //Monta Arvore Sintatica
-            Console.WriteLine("1");
             readTree(); //Marca Indicadores Folha e cria Pilha com Nodos Internos
-            Console.WriteLine("2");
             arvore.copyStack(); //Duplica Pilha para os metodos seguintes
             arvore.calculaPrimeiraEUltimaPosicao(); //Preenche pri_pos, ult_pos e anulavel - esvazia pilha 1
-            Console.WriteLine("3");
             arvore.calculaTabelaPosicaoSeguinte(); // usa segunda pilha pra calcular posicao_seguinte
-            Console.WriteLine("4");
             showPosSeguinte();
-            Console.WriteLine("5");
-            return a;
+            montaAutomato();
+            Automato b = new Automato(1);
+            b.addSimbolo("a");
+            b.addSimbolo("b");
+            b.addEstado("+A");
+            b.addEstado("B");
+            b.addEstado("*C");
+            b.addTransicao("+A", "a", "B");
+            b.addTransicao("B", "a", "*C");
+            b.addTransicao("B", "b", "*C");
+            b.addTransicao("*C", "a", "*C");
+            b.addTransicao("*C", "b", "*C");
+            return b;
+        }
+
+        private void montaAutomato()
+        {
+            Automato automato = new Automato(1);
+            Stack<HashSet<int>> stackEstados = new Stack<HashSet<int>>();
+            automato.simbolos = arvore.simbolos;
+            HashSet<int> estadoRaiz = arvore.raiz.primeira_posicao;
+            string estado = geraNomeDoEstado(estadoRaiz);
+            stackEstados.Push(estadoRaiz);
+            automato.addEstado(estado);
+            automato = geraEstados(automato, stackEstados);
+        }
+
+        private Automato geraEstados(Automato automato, Stack<HashSet<int>> stack)
+        {
+            HashSet<int> estado1, estado2 = new HashSet<int>();
+            while(stack.Count() > 0){
+                estado1 = stack.Pop();
+                foreach (var simbol in arvore.simbolos)
+                {
+                    foreach (var i in estado1)
+                    {
+                        if ((string)arvore.folhas[i] == simbol)
+                            estado2.UnionWith((HashSet<int>)arvore.posicao_seguinte[1]);
+                    }
+                    string nomeEstado1 = geraNomeDoEstado(estado1);
+                    string nomeEstado2 = geraNomeDoEstado(estado2);
+                    if (estado1.SetEquals(estado2))
+                    {
+                        automato.addTransicao(nomeEstado1, simbol, new HashSet<string>( new[] { geraNomeDoEstado(estado1) }));
+                    }
+                    else
+                    {
+                        automato.addEstado(nomeEstado2);
+                        automato.addTransicao(nomeEstado1, simbol, new HashSet<string>(new[] { geraNomeDoEstado(estado2) }));
+                    }
+                }
+                
+            }
+            return automato;
+        }
+
+        private string geraNomeDoEstado(HashSet<int> estado)
+        {
+            string nome = "{";
+            foreach(var i in estado)
+            {
+                nome = nome + i.ToString() + ",";
+            }
+            nome.Substring(0, nome.Length - 1);
+            nome = nome + "}";
+            return nome;
         }
 
         private void showPosSeguinte()
@@ -54,8 +113,6 @@ namespace Trabalho1
 
         }
 
- 
-
         public void createTree()
         {
             arvore.parseRegex(arvore.initialNodo(regex));
@@ -73,6 +130,8 @@ namespace Trabalho1
             public Stack<Nodo> NodosInternos = new Stack<Nodo>();
             public Stack<Nodo> NodosPosicaoSeguinte = new Stack<Nodo>();
             public Hashtable posicao_seguinte = new Hashtable();
+            public Hashtable folhas = new Hashtable();
+            public HashSet<string> simbolos = new HashSet<string>();
 
             public class Nodo
             {
@@ -186,6 +245,8 @@ namespace Trabalho1
                         nodo.anulavel = false;
                     nodo.primeira_posicao.Add(indicador);
                     nodo.ultima_posicao.Add(indicador);
+                    folhas.Add(indicador, nodo.valor);
+                    simbolos.Add(nodo.valor);
                     indicador++;
                     return;
                 }
