@@ -145,7 +145,7 @@ public partial class MainWindow: Gtk.Window {
 	}
 
 	private void atualizarListaAutomatos() {
-		//combobox1.AppendText ("Autômato "+(automatos.Count-1).ToString());
+		combobox1.AppendText ("Autômato "+(automatos.Count-1).ToString());
 	}
 
 	protected void OnAutomatoAction1Activated (object sender, EventArgs e) {
@@ -155,7 +155,7 @@ public partial class MainWindow: Gtk.Window {
 
 	protected void OnAutomatoActionActivated (object sender, EventArgs e) {
 		Crud crud = new Crud("Automato");
-		//crud.Load<List<Automato>>(automatos);
+		crud.Load<List<Automato>>(automatos);
 		atualizarListaAutomatos ();
 	}
 
@@ -179,30 +179,30 @@ public partial class MainWindow: Gtk.Window {
 		atualizarListaAutomatos ();
 	}
 
-	//protected void OnCombobox1Changed (object sender, EventArgs e) {
-	//	string[] indice = combobox1.ActiveText.Split (' ');
-	//	Automato temp = automatos[Int32.Parse(indice[1])];
-	//	List<string> estados1 = new List<string>();
-	//	List<string> simbolos = new List<string>();
-	//	List<string[]> transicao = new List<string[]> ();
-	//	HashSet<string> tempEstados1 = new HashSet<string> ();
-	//	HashSet<string> tempSimbolos = new HashSet<string> ();
-	//	foreach (var t in temp.transicoes) {
-	//		tempEstados1.Add (t.Value.estado1);
-	//		tempSimbolos.Add (t.Value.simbolo);
-	//		foreach (string h in t.Value.estado2) {
-	//			string[] chave = {t.Value.estado1, t.Value.simbolo, h};
-	//			Console.WriteLine (t.Value.estado1+" "+t.Value.simbolo+" "+h);
-	//			transicao.Add (chave);
-	//		}
-	//	}
-	//	foreach (string x in tempEstados1) {
-	//		estados1.Add (x);
-	//	}
-	//	foreach (string x in tempSimbolos) {
-	//		simbolos.Add (x);
-	//	}
-	//	abrirAutomato (estados1, simbolos, transicao);
-	//}
+	protected void OnCombobox1Changed (object sender, EventArgs e) {
+		string[] indice = combobox1.ActiveText.Split (' ');
+		Automato temp = automatos[Int32.Parse(indice[1])];
+		List<string> estados1 = new List<string>();
+		List<string> simbolos = new List<string>();
+		List<string[]> transicao = new List<string[]> ();
+		HashSet<string> tempEstados1 = new HashSet<string> ();
+		HashSet<string> tempSimbolos = new HashSet<string> ();
+		foreach (var t in temp.transicoes) {
+			tempEstados1.Add (t.Value.estado1);
+			tempSimbolos.Add (t.Value.simbolo);
+			foreach (string h in t.Value.estado2) {
+				string[] chave = {t.Value.estado1, t.Value.simbolo, h};
+				Console.WriteLine (t.Value.estado1+" "+t.Value.simbolo+" "+h);
+				transicao.Add (chave);
+			}
+		}
+		foreach (string x in tempEstados1) {
+			estados1.Add (x);
+		}
+		foreach (string x in tempSimbolos) {
+			simbolos.Add (x);
+		}
+		abrirAutomato (estados1, simbolos, transicao);
+	}
 
 }
