@@ -2,37 +2,25 @@
 using Gtk;
 using System.Collections.Generic;
 
-namespace Trabalho1
-{
-    public partial class NovoAutomato : Gtk.Dialog
-    {
-        private List<string[]> automato;
-        MainWindow janela;
+namespace Trabalho1 {
+	public partial class NovoAutomato : Gtk.Dialog {
+		MainWindow janela;
 
-        public NovoAutomato(MainWindow main)
-        {
-            automato = new List<string[]>();
-            janela = main;
-            this.Build();
-        }
+		public NovoAutomato (MainWindow main) {
+			janela = main;
+			this.Title = "Novo Autômato";
+			this.Build ();
+		}
 
-        protected void OnButtonOkClicked(object sender, EventArgs e)
-        {
-            string texto = textview1.Buffer.Text;
-            string[] particao = texto.Split('\n');
-            for (int i = 0; i < particao.Length; i++)
-            {
-                string[] divisao = particao[i].Split(' ');
-                automato.Add(divisao);
-            }
-            janela.atualizarAutomato();
-            this.Hide();
-        }
+		protected void OnButtonOkClicked (object sender, EventArgs e) {
+			string[] vetorEstados = entry2.Text.Split(' ');
+			string[] vetorSimbolos = entry3.Text.Split (' ');
+			janela.atualizarAutomato (vetorEstados, vetorSimbolos);
+			this.Hide ();
+		}
 
-        public Automato getAutomato()
-        {
-            Automato novo = new Automato(123);
-            return novo;
-        }
-    }
+		protected void OnButtonCancelClicked (object sender, EventArgs e) {
+			this.Hide ();
+		}
+	}
 }
