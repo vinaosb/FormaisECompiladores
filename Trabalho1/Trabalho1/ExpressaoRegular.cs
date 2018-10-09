@@ -11,14 +11,15 @@ namespace Trabalho1
     {
         public string regex;
         public ArvoreSintatica arvore;
-        public ExpressaoRegular()
+        public ExpressaoRegular(string text)
         {
             arvore = new ArvoreSintatica();
+            regex = text;
         }
-        public Automato transformaERemAFD(string text)
+        public Automato transformaERemAFD()
         {
             Automato a = new Automato(1);
-            regex = text;
+            
             createTree(); //Monta Arvore Sintatica
             readTree(); //Marca Indicadores Folha e cria Pilha com Nodos Internos
             arvore.copyStack(); //Duplica Pilha para os metodos seguintes
