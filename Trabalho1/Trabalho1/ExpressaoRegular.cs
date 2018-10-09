@@ -26,31 +26,24 @@ namespace Trabalho1
             arvore.calculaPrimeiraEUltimaPosicao(); //Preenche pri_pos, ult_pos e anulavel - esvazia pilha 1
             arvore.calculaTabelaPosicaoSeguinte(); // usa segunda pilha pra calcular posicao_seguinte
             showPosSeguinte();
-            montaAutomato();
-            Automato b = new Automato(1);
-            b.addSimbolo("a");
-            b.addSimbolo("b");
-            b.addEstado("+A");
-            b.addEstado("B");
-            b.addEstado("*C");
-            b.addTransicao("+A", "a", "B");
-            b.addTransicao("B", "a", "*C");
-            b.addTransicao("B", "b", "*C");
-            b.addTransicao("*C", "a", "*C");
-            b.addTransicao("*C", "b", "*C");
-            return b;
+            //fixPosSeguinteTable();
+            a = montaAutomato();
+    
+            return a;
         }
 
-        private void montaAutomato()
+        private Automato montaAutomato()
         {
             Automato automato = new Automato(1);
             Stack<HashSet<int>> stackEstados = new Stack<HashSet<int>>();
             automato.simbolos = arvore.simbolos;
+            automato.simbolos.Remove("#");
             HashSet<int> estadoRaiz = arvore.raiz.primeira_posicao;
             string estado = geraNomeDoEstado(estadoRaiz);
             stackEstados.Push(estadoRaiz);
-            automato.addEstado(estado);
+            automato.addEstado("+"+estado);            
             automato = geraEstados(automato, stackEstados);
+            return automato;
         }
 
         private Automato geraEstados(Automato automato, Stack<HashSet<int>> stack)
@@ -63,7 +56,8 @@ namespace Trabalho1
                     foreach (var i in estado1)
                     {
                         if ((string)arvore.folhas[i] == simbol)
-                            estado2.UnionWith((HashSet<int>)arvore.posicao_seguinte[1]);
+                            if(arvore.posicao_seguinte.ContainsKey(i))
+                                estado2.UnionWith((HashSet<int>)arvore.posicao_seguinte[i]);
                     }
                     string nomeEstado1 = geraNomeDoEstado(estado1);
                     string nomeEstado2 = geraNomeDoEstado(estado2);
@@ -74,6 +68,7 @@ namespace Trabalho1
                     else
                     {
                         automato.addEstado(nomeEstado2);
+                        stack.Push(estado2);
                         automato.addTransicao(nomeEstado1, simbol, new HashSet<string>(new[] { geraNomeDoEstado(estado2) }));
                     }
                 }
@@ -85,15 +80,29 @@ namespace Trabalho1
         private string geraNomeDoEstado(HashSet<int> estado)
         {
             string nome = "{";
+            bool final = false;
             foreach(var i in estado)
             {
-                nome = nome + i.ToString() + ",";
+                nome = nome + i.ToString() + ",";                
+                if (i == arvore.indicadorFim)
+                {
+                    final = true;
+                }
             }
-            nome.Substring(0, nome.Length - 1);
+            nome.Substring(0, nome.Length - 2);
             nome = nome + "}";
+            if (final)
+                nome = "*" + nome;
             return nome;
         }
-
+        //private void fixPosSeguinteTable()
+        //{
+        //    for (int i = 0; i < arvore.indicador; i++)
+        //    {
+        //        if (!arvore.posicao_seguinte.ContainsKey(i))
+        //            arvore.posicao_seguinte.Add(i, "");
+        //    }
+        //}
         private void showPosSeguinte()
         {
             Console.WriteLine("enter");
@@ -127,12 +136,13 @@ namespace Trabalho1
             public Nodo raiz = null;
             public int qtNodo = 0;
             public String result;
-            private int indicador;
+            public int indicador;
             public Stack<Nodo> NodosInternos = new Stack<Nodo>();
             public Stack<Nodo> NodosPosicaoSeguinte = new Stack<Nodo>();
             public Hashtable posicao_seguinte = new Hashtable();
             public Hashtable folhas = new Hashtable();
             public HashSet<string> simbolos = new HashSet<string>();
+            public int indicadorFim;
 
             public class Nodo
             {
@@ -244,6 +254,8 @@ namespace Trabalho1
                         nodo.anulavel = true;
                     else
                         nodo.anulavel = false;
+                    if (nodo.valor == "#")
+                        indicadorFim = indicador;
                     nodo.primeira_posicao.Add(indicador);
                     nodo.ultima_posicao.Add(indicador);
                     folhas.Add(indicador, nodo.valor);
