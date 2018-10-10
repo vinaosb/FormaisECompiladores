@@ -25,8 +25,8 @@ namespace Trabalho1
 
         public struct KeyTransicao
         {
-            string estado;
-            string simbolo;
+            public string estado;
+            public string simbolo;
 
             public KeyTransicao(string e1, string s)
             {
@@ -351,6 +351,19 @@ namespace Trabalho1
                 }
             }
             return automato;
+        }
+        public void showAutomato(Automato automato)
+        {
+            System.Console.WriteLine("transicoes");
+            foreach (var t in automato.transicoes)
+            {
+                foreach (var e in t.Value.estado2)
+                {
+                    KeyTransicao k = t.Key;
+                    System.Console.WriteLine("{0}, {1} -> {2}", k.estado, k.simbolo, e);
+                    //showAutomato(a, e2);
+                }
+            }
         }
     }
 }

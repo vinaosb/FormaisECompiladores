@@ -9,6 +9,12 @@ namespace Trabalho1
 {
     public class ExpressaoRegular
     {
+        // ## Classe Expressao Regular para converter uma ER em AFD ##
+        // A Expressao regular deve ser escrita com as seguintes regras:
+        // 1- Quando 'ou' é usada ex:'|', deve ser usar parenteses: (a|b)
+        // 2- Deve-se usar o sinal de concatenação "." Ex: a.(a|b)*
+        // 3- Deve-se terminar com o simbolo '#' Ex: a.(a|b).(a|b)*.#
+        // ##
         public string regex;
         public ArvoreSintatica arvore;
         public ExpressaoRegular(string text)
@@ -28,25 +34,10 @@ namespace Trabalho1
             showPosSeguinte();
             //fixPosSeguinteTable();
             a = montaAutomato();
-            showAutomato(a, a.estadoInicial);
+            a.showAutomato(a);
             return a;
         }
-
-        private void showAutomato(Automato a, string e1)
-        {
-            //foreach(var s in a.simbolos.ToList())
-            //{
-            //var tran = a.transicoes;
-            Console.WriteLine("transicoes");
-            foreach (var t in a.transicoes)
-            {                
-                foreach (var e in t.Value.estado2) {
-                    string[] k = t.Key;
-                    Console.WriteLine("{0}, {1} -> {2}", k[0], k[1], e);
-                    //showAutomato(a, e2);
-                } }
-            //}
-        }
+ 
 
         private Automato montaAutomato()
         {
@@ -90,9 +81,13 @@ namespace Trabalho1
                         {
                             automato.addEstado(nomeEstado2);
                             bool contemTransacao = false;
-                            foreach (var k in automato.transicoes.Keys)
-                                if (k[0] == nomeEstado1 && k[1] == simbol)
+                            var t = automato.GetTransicao(nomeEstado1, simbol);
+                            foreach(var e in t.estado2)
+                                if(e == nomeEstado2)
                                     contemTransacao = true;
+                            //foreach (var k in automato.transicoes.Keys)
+                            //    if (k[0] == nomeEstado1 && k[1] == simbol)
+                            //        contemTransacao = true;
                             if (!contemTransacao)
                             {
                                 stack.Push(estado2);
