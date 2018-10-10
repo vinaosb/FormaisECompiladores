@@ -191,8 +191,10 @@ namespace Trabalho1 {
 		public Automato Uniao(Automato a2)
 		{
 			Automato r = new Automato(this.ID * a2.ID, this);
-
+			r.addSimbolo ("&");
+			r.estadosFinais.UnionWith (this.estadosFinais);
 			r.estadosFinais.UnionWith(a2.estadosFinais);
+			r.simbolos.UnionWith (this.simbolos);
 			r.simbolos.UnionWith(a2.simbolos);
 
 			foreach (var tra in a2.transicoes)
@@ -205,12 +207,14 @@ namespace Trabalho1 {
 			temp.Add(a2.estadoInicial);
 			temp.Add(this.estadoInicial);
 			r.addTransicao("+Uniao", "&", temp);
+
 			return r;
 		}
 
 		public Automato Interseccao (Automato a2)
 		{
 			Automato r = new Automato(this.ID * a2.ID, this);
+			r.addSimbolo ("&");
 			r.simbolos.UnionWith(a2.simbolos);
 			r.estados.UnionWith(a2.estados);
 

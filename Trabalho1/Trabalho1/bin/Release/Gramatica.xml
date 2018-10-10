@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ArrayOfGramatica xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Gramatica>
+    <SimbolosFinais>
+      <string>a</string>
+      <string>b</string>
+    </SimbolosFinais>
+    <SimbolosIntermediarios>
+      <string>S</string>
+      <string>A|B|&amp;</string>
+      <string>A</string>
+      <string>B</string>
+    </SimbolosIntermediarios>
+    <Producoes>
+      <Regular>
+        <Atual>S</Atual>
+        <Proximos>
+          <string>A|B|&amp;</string>
+        </Proximos>
+      </Regular>
+      <Regular>
+        <Atual>A</Atual>
+        <Proximos>
+          <string>a</string>
+        </Proximos>
+      </Regular>
+      <Regular>
+        <Atual>B</Atual>
+        <Proximos>
+          <string>b</string>
+        </Proximos>
+      </Regular>
+    </Producoes>
+  </Gramatica>
+</ArrayOfGramatica>
