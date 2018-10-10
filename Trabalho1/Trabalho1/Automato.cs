@@ -25,8 +25,8 @@ namespace Trabalho1
 
         public struct KeyTransicao
         {
-            string estado;
-            string simbolo;
+            public string estado;
+            public string simbolo;
 
             public KeyTransicao(string e1, string s)
             {
@@ -34,6 +34,10 @@ namespace Trabalho1
                 simbolo = s;
             }
         }
+
+		public Automato() {
+			ID = (new Random()).Next(0,2000);
+		}
 
         public Automato(int id)
         {

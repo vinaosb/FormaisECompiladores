@@ -16,12 +16,15 @@ namespace Trabalho1
             public List<string> Proximos;
         }
 
-        public List<string> SimbolosFinais = new List<string>();
-        public List<string> SimbolosIntermediarios = new List<string>();
+        public HashSet<string> SimbolosTerminais = new HashSet<string>();
+        public HaseSet<string> SimbolosNaoTerminais = new HashSet<string>();
         public List<Regular> Producoes = new List<Regular>();
+		public string Inicial = "";
 
         public Gramatica()
         {
+			Random random = new Random();         
+			this.ID = random.Next(0,2000);
         }
 
         public Gramatica (string ID)
@@ -29,24 +32,21 @@ namespace Trabalho1
             this.ID = ID;
         }
 
-        public void AddSimbolo(string s)
+        public void AddSimboloNaoTerminal(string s)
         {
-            if (!SimbolosIntermediarios.Contains(s) & !SimbolosFinais.Equals(s))
-            {
-                if (s.Equals(s.ToLower()))
-                {
-                    SimbolosFinais.Add(s);
-                }
-                else
-                {
-                    SimbolosIntermediarios.Add(s);
-                }
-            }
+			if (!SimbolosTerminais.Contains(s)) {
+				
+			}
         }
 
         public void AddProducao (Regular p)
         {
-            AddSimbolo(p.Atual);
+			if (Inicial.Equals(p.Atual))
+			{
+				Inicial = p.Atual;
+			}
+
+			AddSimbolo(p.Atual);
 
             foreach (var s in p.Proximos)
             {
@@ -55,5 +55,14 @@ namespace Trabalho1
 
             Producoes.Add(p);
         }
+
+		public Automato GetAutomato() {
+			Automato ret = new Automato(ID);
+
+			foreach (var simb in SimbolosIntermediarios)
+			{
+
+			}
+		}
     }
 }
