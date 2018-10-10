@@ -7,7 +7,7 @@ namespace Trabalho1
         public int ID = 0;
         public string estadoInicial = "";
         public HashSet<string> estadosFinais = new HashSet<string>();
-        public Dictionary<string[], Transicao> transicoes = new Dictionary<string[], Transicao>();
+        public Dictionary<KeyTransicao, Transicao> transicoes = new Dictionary<KeyTransicao, Transicao>();
         public HashSet<string> estados = new HashSet<string>();
         public HashSet<string> simbolos = new HashSet<string>();
 
@@ -23,6 +23,18 @@ namespace Trabalho1
             }
         }
 
+        public struct KeyTransicao
+        {
+            public string estado;
+            public string simbolo;
+
+            public KeyTransicao(string e1, string s)
+            {
+                estado = e1;
+                simbolo = s;
+            }
+        }
+
         public Automato(int id)
         {
             ID = id;
@@ -35,7 +47,7 @@ namespace Trabalho1
             estadoInicial = a.estadoInicial;
             estadosFinais.UnionWith(a.estadosFinais);
 
-            foreach (KeyValuePair<string[], Transicao> t in a.transicoes)
+            foreach (var t in a.transicoes)
             {
                 transicoes.Add(t.Key, t.Value);
             }
@@ -68,7 +80,7 @@ namespace Trabalho1
         public Transicao GeraTransicao(string e1, string s, string e2)
         {
             Transicao t = new Transicao();
-            string[] temp = { e1, s };
+            KeyTransicao temp = new KeyTransicao( e1, s );
             if (transicoes.ContainsKey(temp))
             {
                 transicoes.TryGetValue(temp, out t);
@@ -100,7 +112,7 @@ namespace Trabalho1
         public Transicao GeraTransicao(string e1, string s, HashSet<string> e2)
         {
             Transicao t = new Transicao();
-            string[] temp = { e1, s };
+            KeyTransicao temp = new KeyTransicao (e1, s);
             if (transicoes.ContainsKey(temp))
             {
                 transicoes.TryGetValue(temp, out t);
@@ -134,7 +146,7 @@ namespace Trabalho1
             Transicao te = new Transicao();
             if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
             {
-                string[] temp = { t.estado1, t.simbolo };
+                KeyTransicao temp = new KeyTransicao(t.estado1, t.simbolo );
                 if (!transicoes.ContainsKey(temp))
                 {
                     transicoes.Add(temp, t);
@@ -159,7 +171,7 @@ namespace Trabalho1
             Transicao te = new Transicao();
             if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
             {
-                string[] temp = { t.estado1, t.simbolo };
+                KeyTransicao temp = new KeyTransicao (t.estado1, t.simbolo);
                 if (!transicoes.ContainsKey(temp))
                 {
                     transicoes.Add(temp, t);
@@ -184,7 +196,7 @@ namespace Trabalho1
             Transicao te = new Transicao();
             if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
             {
-                string[] temp = { t.estado1, t.simbolo };
+                KeyTransicao temp = new KeyTransicao(t.estado1, t.simbolo);
                 if (!transicoes.ContainsKey(temp))
                 {
                     transicoes.Add(temp, t);
@@ -214,7 +226,8 @@ namespace Trabalho1
         public Transicao GetTransicao(string estado, string simbolo)
         {
             Transicao t = new Transicao();
-            string[] temp = { estado, simbolo };
+            KeyTransicao temp = new KeyTransicao(estado,simbolo);
+            
 
             if (transicoes.ContainsKey(temp))
             {
@@ -239,8 +252,9 @@ namespace Trabalho1
 
             r.estadosFinais.UnionWith(a2.estadosFinais);
             r.simbolos.UnionWith(a2.simbolos);
+            r.simbolos.Add("&");
 
-            foreach (KeyValuePair<string[], Transicao> tra in a2.transicoes)
+            foreach (var tra in a2.transicoes)
             {
                 r.addTransicao(tra.Value);
             }
@@ -261,7 +275,7 @@ namespace Trabalho1
             r.simbolos.UnionWith(a2.simbolos);
             r.estados.UnionWith(a2.estados);
 
-            foreach (KeyValuePair<string[], Transicao> tra in a2.transicoes)
+            foreach (var tra in a2.transicoes)
             {
                 r.addTransicao(tra.Value);
             }
@@ -331,12 +345,25 @@ namespace Trabalho1
                     automato.estados.Remove(temp[0]);
                     foreach (string s in automato.simbolos)
                     {
-                        string[] tra = { temp[0], s };
+                        KeyTransicao tra = new KeyTransicao(temp[0], s);
                         automato.transicoes.Remove(tra);
                     }
                 }
             }
             return automato;
+        }
+        public void showAutomato(Automato automato)
+        {
+            System.Console.WriteLine("transicoes");
+            foreach (var t in automato.transicoes)
+            {
+                foreach (var e in t.Value.estado2)
+                {
+                    KeyTransicao k = t.Key;
+                    System.Console.WriteLine("{0}, {1} -> {2}", k.estado, k.simbolo, e);
+                    //showAutomato(a, e2);
+                }
+            }
         }
     }
 }
