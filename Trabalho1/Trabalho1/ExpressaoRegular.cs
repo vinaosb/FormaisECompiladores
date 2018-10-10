@@ -28,8 +28,24 @@ namespace Trabalho1
             showPosSeguinte();
             //fixPosSeguinteTable();
             a = montaAutomato();
-    
+            showAutomato(a, a.estadoInicial);
             return a;
+        }
+
+        private void showAutomato(Automato a, string e1)
+        {
+            //foreach(var s in a.simbolos.ToList())
+            //{
+            //var tran = a.transicoes;
+            Console.WriteLine("transicoes");
+            foreach (var t in a.transicoes)
+            {                
+                foreach (var e in t.Value.estado2) {
+                    string[] k = t.Key;
+                    Console.WriteLine("{0}, {1} -> {2}", k[0], k[1], e);
+                    //showAutomato(a, e2);
+                } }
+            //}
         }
 
         private Automato montaAutomato()
@@ -51,28 +67,40 @@ namespace Trabalho1
             HashSet<int> estado1, estado2 = new HashSet<int>();
             while(stack.Count() > 0){
                 estado1 = stack.Pop();
-                estado2.Clear();
+                string nomeEstado1 = geraNomeDoEstado(estado1);
+                estado2 = new HashSet<int>();
                 foreach (var simbol in arvore.simbolos.ToList())
                 {
+                    estado2 = new HashSet<int>();
                     foreach (var i in estado1.ToList())
                     {
                         if ((string)arvore.folhas[i] == simbol)
                             if(arvore.posicao_seguinte.ContainsKey(i))
                                 estado2.UnionWith((HashSet<int>)arvore.posicao_seguinte[i]);
                     }
-                    string nomeEstado1 = geraNomeDoEstado(estado1);
-                    string nomeEstado2 = geraNomeDoEstado(estado2);
-                    if (estado1.SetEquals(estado2))
+                    if (estado2.Count > 0)
                     {
-                        automato.addTransicao(nomeEstado1, simbol, new HashSet<string>( new[] { geraNomeDoEstado(estado1) }));
+                        string nomeEstado2 = geraNomeDoEstado(estado2);
+
+                        if (estado1.SetEquals(estado2))
+                        {
+                            automato.addTransicao(nomeEstado1, simbol, nomeEstado1);
+                        }
+                        else
+                        {
+                            automato.addEstado(nomeEstado2);
+                            bool contemTransacao = false;
+                            foreach (var k in automato.transicoes.Keys)
+                                if (k[0] == nomeEstado1 && k[1] == simbol)
+                                    contemTransacao = true;
+                            if (!contemTransacao)
+                            {
+                                stack.Push(estado2);
+                                automato.addTransicao(nomeEstado1, simbol, nomeEstado2);
+                                //estado2.Clear();
+                            }
+                        }
                     }
-                    else
-                    {
-                        automato.addEstado(nomeEstado2);
-                        stack.Push(estado2);
-                        automato.addTransicao(nomeEstado1, simbol, new HashSet<string>(new[] { geraNomeDoEstado(estado2) }));
-                    }
-                    estado2.Clear();
                 }
                 
             }
@@ -108,10 +136,9 @@ namespace Trabalho1
         //}
         private void showPosSeguinte()
         {
-            Console.WriteLine("enter");
+            //Console.WriteLine("enter");
             foreach (DictionaryEntry element in arvore.posicao_seguinte)
             {
-                Console.WriteLine("cjeck");
                 //obtém os valores da HashTable usando Key e Value
                 int i = (int)element.Key;
                 //HashSet<int> hash = (HashSet<int>)element.Value;
