@@ -51,9 +51,10 @@ namespace Trabalho1
             HashSet<int> estado1, estado2 = new HashSet<int>();
             while(stack.Count() > 0){
                 estado1 = stack.Pop();
-                foreach (var simbol in arvore.simbolos)
+                estado2.Clear();
+                foreach (var simbol in arvore.simbolos.ToList())
                 {
-                    foreach (var i in estado1)
+                    foreach (var i in estado1.ToList())
                     {
                         if ((string)arvore.folhas[i] == simbol)
                             if(arvore.posicao_seguinte.ContainsKey(i))
@@ -71,6 +72,7 @@ namespace Trabalho1
                         stack.Push(estado2);
                         automato.addTransicao(nomeEstado1, simbol, new HashSet<string>(new[] { geraNomeDoEstado(estado2) }));
                     }
+                    estado2.Clear();
                 }
                 
             }
@@ -79,18 +81,19 @@ namespace Trabalho1
 
         private string geraNomeDoEstado(HashSet<int> estado)
         {
-            string nome = "{";
+            string nome = "";
             bool final = false;
             foreach(var i in estado)
             {
-                nome = nome + i.ToString() + ",";                
+                //nome = nome + i.ToString() + ",";                
+                nome = nome + i.ToString();
                 if (i == arvore.indicadorFim)
                 {
                     final = true;
                 }
             }
-            nome.Substring(0, nome.Length - 2);
-            nome = nome + "}";
+            //nome.Substring(0, nome.Length - 2);
+            //nome = nome + "}";
             if (final)
                 nome = "*" + nome;
             return nome;
