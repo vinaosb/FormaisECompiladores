@@ -9,6 +9,12 @@ namespace Trabalho1
 {
 	public class ExpressaoRegular
 	{
+		// ## Classe Expressao Regular para converter uma ER em AFD ##
+		// A Expressao regular deve ser escrita com as seguintes regras:
+		// 1- Quando 'ou' é usada ex:'|', deve ser usar parenteses: (a|b)
+		// 2- Deve-se usar o sinal de concatenação "." Ex: a.(a|b)*
+		// 3- Deve-se terminar com o simbolo '#' Ex: a.(a|b).(a|b)*.#
+		// ##
 		public string regex;
 		public ArvoreSintatica arvore;
 		public ExpressaoRegular(string text)
@@ -28,9 +34,10 @@ namespace Trabalho1
 			showPosSeguinte();
 			//fixPosSeguinteTable();
 			a = montaAutomato();
-
+			a.showAutomato(a);
 			return a;
 		}
+
 
 		private Automato montaAutomato()
 		{
@@ -51,28 +58,48 @@ namespace Trabalho1
 			HashSet<int> estado1, estado2 = new HashSet<int>();
 			while(stack.Count() > 0){
 				estado1 = stack.Pop();
-				estado2.Clear();
+				string nomeEstado1 = geraNomeDoEstado(estado1);
+				estado2 = new HashSet<int>();
 				foreach (var simbol in arvore.simbolos.ToList())
 				{
+					estado2 = new HashSet<int>();
 					foreach (var i in estado1.ToList())
 					{
 						if ((string)arvore.folhas[i] == simbol)
 						if(arvore.posicao_seguinte.ContainsKey(i))
 							estado2.UnionWith((HashSet<int>)arvore.posicao_seguinte[i]);
 					}
-					string nomeEstado1 = geraNomeDoEstado(estado1);
-					string nomeEstado2 = geraNomeDoEstado(estado2);
-					if (estado1.SetEquals(estado2))
+					if (estado2.Count > 0)
 					{
-						automato.addTransicao(nomeEstado1, simbol, new HashSet<string>( new[] { geraNomeDoEstado(estado1) }));
+						string nomeEstado2 = geraNomeDoEstado(estado2);
+
+						if (estado1.SetEquals(estado2))
+						{
+							automato.addTransicao(nomeEstado1, simbol, nomeEstado1);
+						}
+						else
+						{
+
+							bool contemTransacao = false;
+							var t = automato.GetTransicao(nomeEstado1, simbol);
+							foreach(var e in t.estado2)
+								if(e == nomeEstado2)
+									contemTransacao = true;
+							//foreach (var k in automato.transicoes.Keys)
+							//    if (k[0] == nomeEstado1 && k[1] == simbol)
+							//        contemTransacao = true;
+							if (!contemTransacao)
+							{
+								if (!automato.estados.Contains(nomeEstado2))
+								{
+									stack.Push(estado2);
+									automato.addEstado(nomeEstado2);
+								}
+								automato.addTransicao(nomeEstado1, simbol, nomeEstado2);
+								//estado2.Clear();
+							}
+						}
 					}
-					else
-					{
-						automato.addEstado(nomeEstado2);
-						stack.Push(estado2);
-						automato.addTransicao(nomeEstado1, simbol, new HashSet<string>(new[] { geraNomeDoEstado(estado2) }));
-					}
-					estado2.Clear();
 				}
 
 			}
@@ -108,10 +135,9 @@ namespace Trabalho1
 		//}
 		private void showPosSeguinte()
 		{
-			Console.WriteLine("enter");
+			//Console.WriteLine("enter");
 			foreach (DictionaryEntry element in arvore.posicao_seguinte)
 			{
-				Console.WriteLine("cjeck");
 				//obtém os valores da HashTable usando Key e Value
 				int i = (int)element.Key;
 				//HashSet<int> hash = (HashSet<int>)element.Value;

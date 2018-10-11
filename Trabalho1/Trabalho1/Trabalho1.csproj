@@ -91,6 +91,10 @@
     <Compile Include="gtk-gui\Trabalho1.MinimizarAutomato.cs" />
     <Compile Include="ConverterERAFD.cs" />
     <Compile Include="gtk-gui\Trabalho1.ConverterERAFD.cs" />
+    <Compile Include="ConverterGRAFND.cs" />
+    <Compile Include="gtk-gui\Trabalho1.ConverterGRAFND.cs" />
+    <Compile Include="ConverterAFDGR.cs" />
+    <Compile Include="gtk-gui\Trabalho1.ConverterAFDGR.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
