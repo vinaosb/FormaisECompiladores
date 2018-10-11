@@ -89,10 +89,12 @@ namespace Trabalho1
                 transicoes.TryGetValue(temp, out t);
             }
 
-            char[] delimiter = { '*', '+' };
+            //char[] delimiter = { '*', '+' };
             if (e1.Contains("*") || e1.Contains("+"))
             {
-                e1 = e1.Split(delimiter)[1];
+                //e1 = e1.Split(delimiter)[1];
+                e1 = e1.Replace("*", "");
+                e1 = e1.Replace("+", "");
             }
 
             t.estado1 = e1;
@@ -101,7 +103,11 @@ namespace Trabalho1
             {
                 if (e2.Contains("*") || e2.Contains("+"))
                 {
-                    t.estado2.Add(e2.Split(delimiter)[1]);
+                    //t.estado2.Add(e2.Split(delimiter)[1]);
+                    string aux = e2;
+                    aux = aux.Replace("*", "");
+                    aux = aux.Replace("+", "");
+                    t.estado2.Add(aux);
                 }
                 else
                 {
@@ -121,10 +127,12 @@ namespace Trabalho1
                 transicoes.TryGetValue(temp, out t);
             }
 
-            char[] delimiter = { '*', '+' };
+            //char[] delimiter = { '*', '+' };
             if (e1.Contains("*") || e1.Contains("+"))
             {
-                e1 = e1.Split(delimiter)[1];
+                // e1 = e1.Split(delimiter)[1];
+                e1 = e1.Replace("*", "");
+                e1 = e1.Replace("+", "");
             }
 
             t.estado1 = e1;
@@ -133,7 +141,11 @@ namespace Trabalho1
             {
                 if (e.Contains("*") || e.Contains("+"))
                 {
-                    t.estado2.Add(e.Split(delimiter)[1]);
+                    //t.estado2.Add(e.Split(delimiter)[1]);
+                    string aux = e;
+                    aux = aux.Replace("*", "");
+                    aux = aux.Replace("+", "");
+                    t.estado2.Add(aux);
                 }
                 else
                 {
