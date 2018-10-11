@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Trabalho1
 {
@@ -34,6 +35,10 @@ namespace Trabalho1
                 simbolo = s;
             }
         }
+
+		public Automato() {
+			ID = (new Random()).Next(0,2000);
+		}
 
         public Automato(int id)
         {
