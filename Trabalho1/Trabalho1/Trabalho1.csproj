@@ -73,7 +73,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Crud.cs" />
     <Compile Include="ExpressaoRegular.cs" />
     <Compile Include="Gramatica.cs" />
