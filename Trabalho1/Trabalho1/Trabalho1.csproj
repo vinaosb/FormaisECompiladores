@@ -84,6 +84,17 @@
     <Compile Include="gtk-gui\Trabalho1.NovoAutomato.cs" />
     <Compile Include="NovoAutomato.cs" />
     <Compile Include="Automato.cs" />
+    <Compile Include="AdicionarGramatica.cs" />
+    <Compile Include="gtk-gui\Trabalho1.AdicionarGramatica.cs" />
+    <Compile Include="UnirAutomato.cs" />
+    <Compile Include="gtk-gui\Trabalho1.UnirAutomato.cs" />
+    <Compile Include="ExpressaoRegular.cs" />
+    <Compile Include="Interseccao.cs" />
+    <Compile Include="gtk-gui\Trabalho1.Interseccao.cs" />
+    <Compile Include="MinimizarAutomato.cs" />
+    <Compile Include="gtk-gui\Trabalho1.MinimizarAutomato.cs" />
+    <Compile Include="ConverterERAFD.cs" />
+    <Compile Include="gtk-gui\Trabalho1.ConverterERAFD.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

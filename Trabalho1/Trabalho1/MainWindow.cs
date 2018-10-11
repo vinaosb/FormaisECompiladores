@@ -4,10 +4,10 @@ using Trabalho1;
 using System.Collections.Generic;
 
 public partial class MainWindow: Gtk.Window {
-	private NovoAutomato novo;
 	private Table tabela;
 	private List<ElementosAutomato> entradas;
-	private List<Automato> automatos;
+	public List<Automato> automatos;
+	public List<Gramatica> gramaticas;
 	private bool temTabela = false;
 
 	struct ElementosAutomato {
@@ -20,6 +20,7 @@ public partial class MainWindow: Gtk.Window {
 		Build ();
 		entradas = new List<ElementosAutomato>();
 		automatos = new List<Automato> ();
+		gramaticas = new List<Gramatica> ();
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a) {
@@ -28,7 +29,7 @@ public partial class MainWindow: Gtk.Window {
 	}
 
 	protected void inserirAutomato (object sender, EventArgs e) {
-		novo = new NovoAutomato (this);
+		NovoAutomato novo = new NovoAutomato (this);
 	}
 
 	public void atualizarAutomato(string[] vetorEstados, string[] vetorSimbolos) {
@@ -144,8 +145,23 @@ public partial class MainWindow: Gtk.Window {
 		temTabela = true;
 	}
 
+	public void atualizarGramatica(string gramatica) {
+		textview2.Buffer.Text = gramatica;
+		/*string[] temp = gramatica.Split (new string[] { "->" }, StringSplitOptions.None);
+		for (int i = 0; i < temp.Length; i++) {
+			if (temp[i].Contains("|")) {
+				string[] proximos = temp [i].Split ('|');
+				for (int j = 0; j < proximos.Length; j++) {
+					Console.WriteLine (proximos[i]);
+				}
+			}
+		}*/
+	}
+
 	private void atualizarListaAutomatos() {
-		combobox1.AppendText ("Autômato "+(automatos.Count-1).ToString());
+		for (int i = 0; i < automatos.Count; i++) {
+			combobox1.AppendText("Autômato " + (i).ToString ());
+		}
 	}
 
 	protected void OnAutomatoAction1Activated (object sender, EventArgs e) {
@@ -165,15 +181,11 @@ public partial class MainWindow: Gtk.Window {
 
 	protected void OnButton6Clicked (object sender, EventArgs e) {
 		Automato temp = new Automato (automatos.Count);
-		HashSet<string> e2 = new HashSet<string> ();
 		for (int i = 0; i < entradas.Count; i++) {
 			temp.addEstado (entradas [i].estado1);
+			temp.addEstado (entradas [i].estado2.Text);
 			temp.addSimbolo (entradas [i].simbolo);
-			e2.Add (entradas [i].estado2.Text);
-			foreach (string x in e2) {
-				//Console.WriteLine (entradas [i].estado1+" "+entradas [i].simbolo+" "+x);
-			}
-			temp.addTransicao (entradas [i].estado1, entradas [i].simbolo, e2);
+			temp.addTransicao(entradas [i].estado1, entradas [i].simbolo, entradas [i].estado2.Text);
 		}
 		automatos.Add (temp);
 		atualizarListaAutomatos ();
@@ -188,11 +200,34 @@ public partial class MainWindow: Gtk.Window {
 		HashSet<string> tempEstados1 = new HashSet<string> ();
 		HashSet<string> tempSimbolos = new HashSet<string> ();
 		foreach (var t in temp.transicoes) {
-			tempEstados1.Add (t.Value.estado1);
+			string estado = "";
+			foreach (string s in temp.estadosFinais) {
+				if (t.Value.estado1 == temp.estadoInicial) {
+					estado = "+" + t.Value.estado1;
+				} else if (t.Value.estado1 == s) {
+					estado = "*" + t.Value.estado1;
+				} else if (t.Value.estado1 == temp.estadoInicial && t.Value.estado1 == s) {
+					estado = "+*" + t.Value.estado1;
+				} else {
+					estado = t.Value.estado1;
+				}
+			}
+			tempEstados1.Add (estado);
 			tempSimbolos.Add (t.Value.simbolo);
 			foreach (string h in t.Value.estado2) {
-				string[] chave = {t.Value.estado1, t.Value.simbolo, h};
-				Console.WriteLine (t.Value.estado1+" "+t.Value.simbolo+" "+h);
+				string estado2 = "";
+				foreach (string s in temp.estadosFinais) {
+					if (h == temp.estadoInicial) {
+						estado2 = "+" + h;
+					} else if (h == s) {
+						estado2 = "*" + h;
+					} else if (h == temp.estadoInicial && h == s) {
+						estado2 = "+*" + h;
+					} else {
+						estado2 = h;
+					}
+				}
+				string[] chave = {estado, t.Value.simbolo, estado2};
 				transicao.Add (chave);
 			}
 		}
@@ -203,6 +238,61 @@ public partial class MainWindow: Gtk.Window {
 			simbolos.Add (x);
 		}
 		abrirAutomato (estados1, simbolos, transicao);
+	}
+		
+	protected void OnGramticaRegularActionActivated (object sender, EventArgs e) {
+		AdicionarGramatica adGramatica = new AdicionarGramatica (this);
+	}
+
+	public void atualizarListaGramaticas() {
+		for (int i = 0; i < gramaticas.Count; i++) {
+			combobox2.AppendText ("Gramática " + (i).ToString ());
+		}
+	}
+
+	protected void OnButton230Clicked (object sender, EventArgs e) {
+		string[] temp = textview2.Buffer.Text.Split(new [] { '\r', '\n' });
+		Gramatica gramatica = new Gramatica ();
+		for (int i = 0; i < temp.Length; i++) {
+			Gramatica.Regular regular = new Gramatica.Regular ();
+			string[] temp2 = temp [i].Split(new string[] { "->" }, StringSplitOptions.None);
+			regular.Atual = temp2 [0];
+			List<string> proximos = new List<string> ();
+			for (int j = 0; j < temp2.Length; j++) {
+				if (!temp2 [j].Contains ("|")) {
+					if (!proximos.Contains (temp2 [1])) {
+						proximos.Add (temp2 [1]);
+					}
+				}
+			}
+			regular.Proximos = proximos;
+			gramatica.AddProducao (regular);
+		}
+		gramaticas.Add (gramatica);
+		atualizarListaGramaticas ();
+	}
+
+	protected void OnCombobox2Changed (object sender, EventArgs e) {
+		string[] indice = combobox2.ActiveText.Split (' ');
+		Gramatica temp = gramaticas[Int32.Parse(indice[1])];
+		string texto = "";
+		for (int j = 0; j < temp.Producoes.Count; j++) {
+			for (int k = 0; k < temp.Producoes[j].Proximos.Count; k++) {
+				texto += temp.Producoes [j].Atual + "->" + temp.Producoes [j].Proximos [k]+"\n";
+			}
+		}
+		textview2.Buffer.Text = texto;
+	}
+
+	protected void OnGramticaActionActivated (object sender, EventArgs e) {
+		Crud crud = new Crud("Gramatica");
+		crud.Store<List<Gramatica>>(gramaticas);
+	}
+
+	protected void OnGramaticaActionActivated (object sender, EventArgs e) {
+		Crud crud = new Crud("Gramatica");
+		crud.Load<List<Gramatica>>(gramaticas);
+		atualizarListaGramaticas ();
 	}
 
 }
