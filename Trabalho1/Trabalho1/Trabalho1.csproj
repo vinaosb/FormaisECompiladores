@@ -88,7 +88,6 @@
     <Compile Include="gtk-gui\Trabalho1.AdicionarGramatica.cs" />
     <Compile Include="UnirAutomato.cs" />
     <Compile Include="gtk-gui\Trabalho1.UnirAutomato.cs" />
-    <Compile Include="ExpressaoRegular.cs" />
     <Compile Include="gtk-gui\Trabalho1.Interseccao.cs" />
     <Compile Include="gtk-gui\Trabalho1.MinimizarAutomato.cs" />
     <Compile Include="ConverterERAFD.cs" />
