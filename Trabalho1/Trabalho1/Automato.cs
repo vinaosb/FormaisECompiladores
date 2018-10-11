@@ -63,17 +63,20 @@ namespace Trabalho1
             if (e.Contains("+"))
             {
                 estadoInicial = e.Split('+')[1];
+                estadoInicial = estadoInicial.Replace("*", "");
             }
 
             if (e.Contains("*") && !estadosFinais.Contains(e.Split('*')[1]))
             {
                 estadosFinais.Add(e.Split('*')[1]);
             }
-
-            char[] delimiter = { '+', '*' };
+            
+            //char[] delimiter = { '+', '*' };
             if (e.Contains("+") || e.Contains("*"))
             {
-                e = e.Split(delimiter)[1];
+                //e = e.Split(delimiter)[1];
+                e = e.Replace("*", "");
+                e = e.Replace("+", "");
             }
 
             if (!estados.Contains(e))
