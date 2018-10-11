@@ -79,7 +79,7 @@ namespace Trabalho1
                         }
                         else
                         {
-                            automato.addEstado(nomeEstado2);
+                            
                             bool contemTransacao = false;
                             var t = automato.GetTransicao(nomeEstado1, simbol);
                             foreach(var e in t.estado2)
@@ -90,7 +90,11 @@ namespace Trabalho1
                             //        contemTransacao = true;
                             if (!contemTransacao)
                             {
-                                stack.Push(estado2);
+                                if (!automato.estados.Contains(nomeEstado2))
+                                {
+                                    stack.Push(estado2);
+                                    automato.addEstado(nomeEstado2);
+                                }
                                 automato.addTransicao(nomeEstado1, simbol, nomeEstado2);
                                 //estado2.Clear();
                             }
