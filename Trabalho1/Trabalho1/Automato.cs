@@ -315,10 +315,10 @@ namespace Trabalho1
         {
             Automato miniAuto = new Automato(ID)
             {
-                estadoInicial = automato.estadoInicial,
+                estadoInicial = automato.estadoInicial,                
                 simbolos = automato.simbolos
             };
-
+            miniAuto.addEstado(miniAuto.estadoInicial);
             miniAuto = eliminaEstadosInalcancaveis(automato, miniAuto, automato.estadoInicial);
             miniAuto = eliminaEstadosMortos(miniAuto);
 
@@ -332,9 +332,12 @@ namespace Trabalho1
                 HashSet<string> temp = automato.GetTransicao(estado, s).estado2;
                 foreach (string e in temp)
                 {
-                    miniAuto.addEstado(e);
+                    bool exists = miniAuto.estados.Contains(e);                                    
+                    if (!exists)
+                        miniAuto.addEstado(e);                        
                     miniAuto.addTransicao(estado, s, e);
-                    eliminaEstadosInalcancaveis(automato, miniAuto, e);
+                    if(!exists /*&& !miniAuto.estadoInicial.Contains(e)*/)
+                        eliminaEstadosInalcancaveis(automato, miniAuto, e);
                 }
             }
             return miniAuto;
