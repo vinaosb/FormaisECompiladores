@@ -355,7 +355,7 @@ namespace Trabalho1
             elimEstMorto(ref automato, ref t, automato.estadoInicial);
             List<KeyTransicao> lk = new List<KeyTransicao>();
 
-            foreach(var v in t)
+            foreach (var v in t)
             {
                 if (v.Value == false)
                 {
