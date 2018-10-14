@@ -351,30 +351,9 @@ namespace Trabalho1
         }
         public Automato eliminaEstadosMortos(Automato automato)
         {
-            List<string> temp = new List<string>();
-            foreach (string e1 in automato.estados)
-            {
-                temp.Clear();
-                foreach (string s in automato.simbolos)
-                {
-                    foreach (string t in automato.GetTransicao(e1, s).estado2)
-                    {
-                        if (!temp.Contains(t))
-                        {
-                            temp.Add(t);
-                        }
-                    }
-                }
-                if (temp.Contains(e1) & temp.Count == 1 & !automato.estadosFinais.Contains(e1))
-                {
-                    automato.estados.Remove(temp[0]);
-                    foreach (string s in automato.simbolos)
-                    {
-                        KeyTransicao tra = new KeyTransicao(temp[0], s);
-                        automato.transicoes.Remove(tra);
-                    }
-                }
-            }
+            Dictionary<string, bool> t = new Dictionary<string, bool>();
+            elimEstMorto(ref automato, ref t, automato.estadoInicial);
+
             return automato;
         }
 
