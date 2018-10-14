@@ -12,19 +12,26 @@ namespace Trabalho1
 {
     public class Gramatica
     {
+        // ID da Gramatica para poder diferencias na interface grafica
         public string ID;
-
+        // Estrutura para representar Gramáticas Regulares
         public struct Regular
         {
+            // Estado Atual
             public char Atual;
+            // Proximos Estados
             public List<string> Proximos;
         }
-
+        // Lista de Simbolos Terminais
         public HashSet<char> SimbolosTerminais = new HashSet<char>();
+        // Lista de Simbolos não Terminais
         public HashSet<char> SimbolosNaoTerminais = new HashSet<char>();
+        // Lista de Produções
         public Dictionary<char, Regular> Producoes = new Dictionary<char, Regular>();
+        // Estado Inicial
         public char Inicial;
-
+        
+        //Função para gerar uma Gramática
         public Gramatica()
         {
             Random random = new Random();
@@ -32,12 +39,14 @@ namespace Trabalho1
             Inicial = '\0';
         }
 
+        // Função para gerar uma Gramática com um certo ID
         public Gramatica(string ID)
         {
             this.ID = ID;
             Inicial = '\0';
         }
 
+        // Função para gerar uma Gramática a partir de um autômato finito determinístico
         public Gramatica(Automato a)
         {
             foreach (string e in a.estados)
@@ -81,6 +90,7 @@ namespace Trabalho1
 
         }
 
+        // Adicionar Simbolo Não Terminal
         private void AddSimboloNaoTerminal(char s)
         {
             if (!SimbolosNaoTerminais.Contains(s))
@@ -89,6 +99,7 @@ namespace Trabalho1
             }
         }
 
+        // Adicionar Simbolo Terminal
         private void AddSimboloTerminal(char s)
         {
             if (!SimbolosTerminais.Contains(s))
@@ -97,6 +108,7 @@ namespace Trabalho1
             }
         }
 
+        // Adicionar Produções
         public void AddProducao(Regular p)
         {
             if (!Producoes.ContainsKey(p.Atual))
@@ -141,6 +153,7 @@ namespace Trabalho1
 
         }
 
+        // Gera um autômato a partir dessa Gramática
         public Automato GetAutomato()
         {
             Automato ret = new Automato();
@@ -209,6 +222,7 @@ namespace Trabalho1
             return ret;
         }
 
+        // Função de Debug
         public void showGR()
         {
             foreach (var P in Producoes)
