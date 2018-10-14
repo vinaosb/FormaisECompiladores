@@ -17,6 +17,7 @@ namespace Trabalho1 {
 		}
 
 		protected void OnButtonOkClicked (object sender, EventArgs e) {
+			janela.limparEntradas ();
 			janela.converterGRAFND (Int32.Parse(entry1.Text));
 			this.Hide ();
 		}

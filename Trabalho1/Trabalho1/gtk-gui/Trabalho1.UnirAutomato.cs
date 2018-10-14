@@ -114,6 +114,7 @@ namespace Trabalho1
 			this.DefaultWidth = 400;
 			this.DefaultHeight = 146;
 			this.Show ();
+			this.buttonCancel.Clicked += new global::System.EventHandler (this.OnButtonCancelClicked);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}
 	}

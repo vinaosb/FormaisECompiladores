@@ -33,9 +33,6 @@
     <ConsolePause>false</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>Trabalho1.MainClass</StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -74,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crud.cs" />
-    <Compile Include="ExpressaoRegular.cs" />
     <Compile Include="Gramatica.cs" />
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="MainWindow.cs" />
@@ -84,11 +80,12 @@
     <Compile Include="gtk-gui\Trabalho1.NovoAutomato.cs" />
     <Compile Include="NovoAutomato.cs" />
     <Compile Include="Automato.cs" />
-    <Compile Include="AdicionarGramatica.cs" />
-    <Compile Include="gtk-gui\Trabalho1.AdicionarGramatica.cs" />
     <Compile Include="UnirAutomato.cs" />
     <Compile Include="gtk-gui\Trabalho1.UnirAutomato.cs" />
+    <Compile Include="ExpressaoRegular.cs" />
+    <Compile Include="Interseccao.cs" />
     <Compile Include="gtk-gui\Trabalho1.Interseccao.cs" />
+    <Compile Include="MinimizarAutomato.cs" />
     <Compile Include="gtk-gui\Trabalho1.MinimizarAutomato.cs" />
     <Compile Include="ConverterERAFD.cs" />
     <Compile Include="gtk-gui\Trabalho1.ConverterERAFD.cs" />
@@ -103,9 +100,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -219,7 +219,7 @@ public partial class MainWindow
 		this.notebook1 = new global::Gtk.Notebook ();
 		this.notebook1.CanFocus = true;
 		this.notebook1.Name = "notebook1";
-		this.notebook1.CurrentPage = 0;
+		this.notebook1.CurrentPage = 1;
 		// Container child notebook1.Gtk.Notebook+NotebookChild
 		this.vbox3 = new global::Gtk.VBox ();
 		this.vbox3.Name = "vbox3";
@@ -389,6 +389,8 @@ public partial class MainWindow
 		this.InterseccionarAutmatosAction.Activated += new global::System.EventHandler (this.OnInterseccionarAutmatosActionActivated);
 		this.MinimizarAutmatoAction.Activated += new global::System.EventHandler (this.OnMinimizarAutmatoActionActivated);
 		this.ConverterEREmAFDAction.Activated += new global::System.EventHandler (this.OnConverterEREmAFDActionActivated);
+		this.ExpressoAction.Activated += new global::System.EventHandler (this.OnExpressoActionActivated);
+		this.ExpressoAction1.Activated += new global::System.EventHandler (this.OnExpressoAction1Activated);
 		this.ConverterGramticaParaAFNDAction.Activated += new global::System.EventHandler (this.OnConverterGramticaParaAFNDActionActivated);
 		this.ConverterAFDEmGramticaAction.Activated += new global::System.EventHandler (this.OnConverterAFDEmGramticaActionActivated);
 		this.combobox1.Changed += new global::System.EventHandler (this.OnCombobox1Changed);
