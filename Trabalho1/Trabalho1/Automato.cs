@@ -49,7 +49,7 @@ namespace Trabalho1
             estadoInicial = a.estadoInicial;
             estadosFinais.UnionWith(a.estadosFinais);
 
-            foreach (var t in a.transicoes)
+            foreach (KeyValuePair<KeyTransicao, Transicao> t in a.transicoes)
             {
                 transicoes.Add(t.Key, t.Value);
             }
@@ -67,7 +67,7 @@ namespace Trabalho1
             {
                 estadosFinais.Add(e.Split('*')[1]);
             }
-            
+
             //char[] delimiter = { '+', '*' };
             if (e.Contains("+") || e.Contains("*"))
             {
@@ -85,7 +85,7 @@ namespace Trabalho1
         public Transicao GeraTransicao(string e1, string s, string e2)
         {
             Transicao t = new Transicao();
-            KeyTransicao temp = new KeyTransicao( e1, s );
+            KeyTransicao temp = new KeyTransicao(e1, s);
             if (transicoes.ContainsKey(temp))
             {
                 transicoes.TryGetValue(temp, out t);
@@ -123,7 +123,7 @@ namespace Trabalho1
         public Transicao GeraTransicao(string e1, string s, HashSet<string> e2)
         {
             Transicao t = new Transicao();
-            KeyTransicao temp = new KeyTransicao (e1, s);
+            KeyTransicao temp = new KeyTransicao(e1, s);
             if (transicoes.ContainsKey(temp))
             {
                 transicoes.TryGetValue(temp, out t);
@@ -163,7 +163,7 @@ namespace Trabalho1
             Transicao te = new Transicao();
             if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
             {
-                KeyTransicao temp = new KeyTransicao(t.estado1, t.simbolo );
+                KeyTransicao temp = new KeyTransicao(t.estado1, t.simbolo);
                 if (!transicoes.ContainsKey(temp))
                 {
                     transicoes.Add(temp, t);
@@ -188,7 +188,7 @@ namespace Trabalho1
             Transicao te = new Transicao();
             if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
             {
-                KeyTransicao temp = new KeyTransicao (t.estado1, t.simbolo);
+                KeyTransicao temp = new KeyTransicao(t.estado1, t.simbolo);
                 if (!transicoes.ContainsKey(temp))
                 {
                     transicoes.Add(temp, t);
@@ -243,8 +243,8 @@ namespace Trabalho1
         public Transicao GetTransicao(string estado, string simbolo)
         {
             Transicao t = new Transicao();
-            KeyTransicao temp = new KeyTransicao(estado,simbolo);
-            
+            KeyTransicao temp = new KeyTransicao(estado, simbolo);
+
 
             if (transicoes.ContainsKey(temp))
             {
@@ -271,7 +271,7 @@ namespace Trabalho1
             r.simbolos.UnionWith(a2.simbolos);
             r.simbolos.Add("&");
 
-            foreach (var tra in a2.transicoes)
+            foreach (KeyValuePair<KeyTransicao, Transicao> tra in a2.transicoes)
             {
                 r.addTransicao(tra.Value);
             }
@@ -292,7 +292,7 @@ namespace Trabalho1
             r.simbolos.UnionWith(a2.simbolos);
             r.estados.UnionWith(a2.estados);
 
-            foreach (var tra in a2.transicoes)
+            foreach (KeyValuePair<KeyTransicao, Transicao> tra in a2.transicoes)
             {
                 r.addTransicao(tra.Value);
             }
@@ -317,7 +317,7 @@ namespace Trabalho1
         {
             Automato miniAuto = new Automato(ID)
             {
-                estadoInicial = automato.estadoInicial,                
+                estadoInicial = automato.estadoInicial,
                 simbolos = automato.simbolos
             };
             miniAuto.addEstado(miniAuto.estadoInicial);
@@ -334,12 +334,17 @@ namespace Trabalho1
                 HashSet<string> temp = automato.GetTransicao(estado, s).estado2;
                 foreach (string e in temp)
                 {
-                    bool exists = miniAuto.estados.Contains(e);                                    
+                    bool exists = miniAuto.estados.Contains(e);
                     if (!exists)
-                        miniAuto.addEstado(e);                        
+                    {
+                        miniAuto.addEstado(e);
+                    }
+
                     miniAuto.addTransicao(estado, s, e);
-                    if(!exists /*&& !miniAuto.estadoInicial.Contains(e)*/)
+                    if (!exists /*&& !miniAuto.estadoInicial.Contains(e)*/)
+                    {
                         eliminaEstadosInalcancaveis(automato, miniAuto, e);
+                    }
                 }
             }
             return miniAuto;
@@ -372,9 +377,40 @@ namespace Trabalho1
             }
             return automato;
         }
+
+        private bool elimEstMorto(ref Automato automato, ref Dictionary<string, bool> visitados, string estado)
+        {
+            bool ret = false;
+            if (visitados.ContainsKey(estado))
+            {
+                visitados.TryGetValue(estado, out ret);
+                return ret;
+            }
+            else
+            {
+                visitados.Add(estado, automato.estadosFinais.Contains(estado));
+                foreach (string s in automato.simbolos)
+                {
+                    Transicao t = automato.GetTransicao(estado, s);
+
+                    foreach (string e2 in t.estado2)
+                    {
+                        if (elimEstMorto(ref automato, ref visitados, e2))
+                        {
+                            ret = true;
+                        }
+                    }
+                }
+            }
+            visitados.Remove(estado);
+            visitados.Add(estado, ret | automato.estadosFinais.Contains(estado));
+            return ret;
+
+        }
+
         public Automato eliminaEstadosEquivalentes(Automato automato)
         {
-           // System.Collections.Hashtable passos = new System.Collections.Hashtable();
+            // System.Collections.Hashtable passos = new System.Collections.Hashtable();
             HashSet<HashSet<string>> classes = new HashSet<HashSet<string>>();
             HashSet<HashSet<string>> classesNovas = new HashSet<HashSet<string>>();
             classes.Add(automato.estadosFinais);
@@ -384,14 +420,18 @@ namespace Trabalho1
             bool novoPasso = true;
             while (novoPasso)
             {
-                foreach (var e in automato.estados)
+                foreach (string e in automato.estados)
                 {
                     alocaEstadoEmClasseNova(e, classesNovas, classes);
                 }
                 if (classes.Count == classesNovas.Count)
+                {
                     novoPasso = false;
+                }
                 else
+                {
                     novoPasso = true;
+                }
 
                 classes = new HashSet<HashSet<string>>(classesNovas);
                 classesNovas.Clear();
@@ -399,38 +439,46 @@ namespace Trabalho1
 
             //debug
             Console.WriteLine("classes");
-            foreach (var c in classes)
-            {                
+            foreach (HashSet<string> c in classes)
+            {
                 Console.Write("{");
-                foreach(var e in c)
+                foreach (string e in c)
                 {
                     Console.Write(e);
                 }
                 Console.Write("}");
                 Console.WriteLine(".");
             }
-            Automato newAuto = new Automato(5);
-            newAuto.simbolos = automato.simbolos;
+            Automato newAuto = new Automato(5)
+            {
+                simbolos = automato.simbolos
+            };
             Hashtable relEstadoClasse = new Hashtable();
-            foreach (var c in classes)
+            foreach (HashSet<string> c in classes)
             {
                 string nomeEstado = "";
-                foreach (var e in c)
+                foreach (string e in c)
                 {
                     nomeEstado = nomeEstado + e;
                 }
-                foreach(var est in c)
+                foreach (string est in c)
                 {
                     relEstadoClasse.Add(est, nomeEstado);
                 }
-                foreach(var f in estadosFinais)
+                foreach (string f in estadosFinais)
+                {
                     if (c.Contains(f))
                     {
                         nomeEstado = "*" + nomeEstado;
                         break;
                     }
+                }
+
                 if (c.Contains(automato.estadoInicial))
+                {
                     nomeEstado = "+" + nomeEstado;
+                }
+
                 newAuto.addEstado(nomeEstado);
             }
             newAuto.criaTransicoes(classes, automato, relEstadoClasse);
@@ -439,13 +487,13 @@ namespace Trabalho1
 
         private void criaTransicoes(HashSet<HashSet<string>> classes, Automato automato, Hashtable rel)
         {
-            foreach(var classe in classes)
+            foreach (HashSet<string> classe in classes)
             {
-                foreach(var e in classe)
+                foreach (string e in classe)
                 {
-                    foreach (var s in simbolos)
+                    foreach (string s in simbolos)
                     {
-                        foreach(var e2 in automato.GetTransicao(e, s).estado2)
+                        foreach (string e2 in automato.GetTransicao(e, s).estado2)
                         {
                             string origem = (string)rel[e];
                             string destino = (string)rel[e2];
@@ -460,9 +508,9 @@ namespace Trabalho1
         private void alocaEstadoEmClasseNova(string e, HashSet<HashSet<string>> classesNovas, HashSet<HashSet<string>> classesAntigas)
         {
             bool newClass = true;
-            foreach(var classe in classesNovas)
+            foreach (HashSet<string> classe in classesNovas)
             {
-                foreach(var estado in classe)
+                foreach (string estado in classe)
                 {
                     if (mesmaClasseEquivalencia(e, estado, classesAntigas))
                     {
@@ -474,8 +522,10 @@ namespace Trabalho1
             }
             if (newClass)
             {
-                HashSet<string> novaCE = new HashSet<string>();
-                novaCE.Add(e);
+                HashSet<string> novaCE = new HashSet<string>
+                {
+                    e
+                };
                 classesNovas.Add(novaCE);
             }
         }
@@ -483,10 +533,10 @@ namespace Trabalho1
         private bool mesmaClasseEquivalencia(string estado1, string estado2, HashSet<HashSet<string>> classes)
         {
             bool mesmaClasse = false;
-            foreach (var s in simbolos)
+            foreach (string s in simbolos)
             {
-                string destinoEstado1="", destinoEstado2="";
-                HashSet<string> classeDoEstado1 = new HashSet<string>(), 
+                string destinoEstado1 = "", destinoEstado2 = "";
+                HashSet<string> classeDoEstado1 = new HashSet<string>(),
                     classeDoEstado2 = new HashSet<string>();
                 HashSet<string> temp = GetTransicao(estado1, s).estado2;
                 foreach (string e in temp)
@@ -498,18 +548,29 @@ namespace Trabalho1
                 {
                     destinoEstado2 = e;
                 }
-                foreach(var classe in classes)
+                foreach (HashSet<string> classe in classes)
                 {
                     if (classe.Contains(destinoEstado1))
+                    {
                         classeDoEstado1 = new HashSet<string>(classe);
+                    }
+
                     if (classe.Contains(destinoEstado2))
+                    {
                         classeDoEstado2 = new HashSet<string>(classe);
+                    }
                 }
                 if (classeDoEstado1.Count > 0 && classeDoEstado2.Count > 0)
+                {
                     if (classeDoEstado1.SetEquals(classeDoEstado2))
+                    {
                         mesmaClasse = true;
+                    }
                     else
+                    {
                         return false;
+                    }
+                }
             }
             return mesmaClasse;
         }
@@ -517,9 +578,9 @@ namespace Trabalho1
         public void showAutomato(Automato automato)
         {
             System.Console.WriteLine("transicoes");
-            foreach (var t in automato.transicoes)
+            foreach (KeyValuePair<KeyTransicao, Transicao> t in automato.transicoes)
             {
-                foreach (var e in t.Value.estado2)
+                foreach (string e in t.Value.estado2)
                 {
                     KeyTransicao k = t.Key;
                     System.Console.WriteLine("{0}, {1} -> {2}", k.estado, k.simbolo, e);
