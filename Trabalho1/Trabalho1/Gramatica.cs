@@ -1,7 +1,7 @@
 ﻿/*
  * Universidade Federal de Santa Catarina
  * Departamento de Informática e Estatística
- * Marcelo José Dias
+ * Marcelo José Dias, Thiago Martendal Salvador, Vinícius Schwinden Berkenbrock
  */
 
 using System;
