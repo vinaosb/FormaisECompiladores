@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Trabalho1
 {
@@ -321,8 +323,8 @@ namespace Trabalho1
             miniAuto.addEstado(miniAuto.estadoInicial);
             miniAuto = eliminaEstadosInalcancaveis(automato, miniAuto, automato.estadoInicial);
             miniAuto = eliminaEstadosMortos(miniAuto);
+            miniAuto = eliminaEstadosEquivalentes(miniAuto);
 
-            //eliminateEqStates(miniAuto);
             return miniAuto;
         }
         public Automato eliminaEstadosInalcancaveis(Automato automato, Automato miniAuto, string estado)
@@ -370,6 +372,148 @@ namespace Trabalho1
             }
             return automato;
         }
+        public Automato eliminaEstadosEquivalentes(Automato automato)
+        {
+           // System.Collections.Hashtable passos = new System.Collections.Hashtable();
+            HashSet<HashSet<string>> classes = new HashSet<HashSet<string>>();
+            HashSet<HashSet<string>> classesNovas = new HashSet<HashSet<string>>();
+            classes.Add(automato.estadosFinais);
+            HashSet<string> notFinals = new HashSet<string>(automato.estados);
+            notFinals.SymmetricExceptWith(automato.estadosFinais);
+            classes.Add(notFinals);
+            bool novoPasso = true;
+            while (novoPasso)
+            {
+                foreach (var e in automato.estados)
+                {
+                    alocaEstadoEmClasseNova(e, classesNovas, classes);
+                }
+                if (classes.Count == classesNovas.Count)
+                    novoPasso = false;
+                else
+                    novoPasso = true;
+
+                classes = new HashSet<HashSet<string>>(classesNovas);
+                classesNovas.Clear();
+            }
+
+            //debug
+            Console.WriteLine("classes");
+            foreach (var c in classes)
+            {                
+                Console.Write("{");
+                foreach(var e in c)
+                {
+                    Console.Write(e);
+                }
+                Console.Write("}");
+                Console.WriteLine(".");
+            }
+            Automato newAuto = new Automato(5);
+            newAuto.simbolos = automato.simbolos;
+            Hashtable relEstadoClasse = new Hashtable();
+            foreach (var c in classes)
+            {
+                string nomeEstado = "";
+                foreach (var e in c)
+                {
+                    nomeEstado = nomeEstado + e;
+                }
+                foreach(var est in c)
+                {
+                    relEstadoClasse.Add(est, nomeEstado);
+                }
+                foreach(var f in estadosFinais)
+                    if (c.Contains(f))
+                    {
+                        nomeEstado = "*" + nomeEstado;
+                        break;
+                    }
+                if (c.Contains(automato.estadoInicial))
+                    nomeEstado = "+" + nomeEstado;
+                newAuto.addEstado(nomeEstado);
+            }
+            newAuto.criaTransicoes(classes, automato, relEstadoClasse);
+            return newAuto;
+        }
+
+        private void criaTransicoes(HashSet<HashSet<string>> classes, Automato automato, Hashtable rel)
+        {
+            foreach(var classe in classes)
+            {
+                foreach(var e in classe)
+                {
+                    foreach (var s in simbolos)
+                    {
+                        foreach(var e2 in automato.GetTransicao(e, s).estado2)
+                        {
+                            string origem = (string)rel[e];
+                            string destino = (string)rel[e2];
+                            addTransicao(origem, s, destino);
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+        private void alocaEstadoEmClasseNova(string e, HashSet<HashSet<string>> classesNovas, HashSet<HashSet<string>> classesAntigas)
+        {
+            bool newClass = true;
+            foreach(var classe in classesNovas)
+            {
+                foreach(var estado in classe)
+                {
+                    if (mesmaClasseEquivalencia(e, estado, classesAntigas))
+                    {
+                        classe.Add(e);
+                        newClass = false;
+                    }
+                    break; //Só precisa compara com um estado da classe.
+                }
+            }
+            if (newClass)
+            {
+                HashSet<string> novaCE = new HashSet<string>();
+                novaCE.Add(e);
+                classesNovas.Add(novaCE);
+            }
+        }
+
+        private bool mesmaClasseEquivalencia(string estado1, string estado2, HashSet<HashSet<string>> classes)
+        {
+            bool mesmaClasse = false;
+            foreach (var s in simbolos)
+            {
+                string destinoEstado1="", destinoEstado2="";
+                HashSet<string> classeDoEstado1 = new HashSet<string>(), 
+                    classeDoEstado2 = new HashSet<string>();
+                HashSet<string> temp = GetTransicao(estado1, s).estado2;
+                foreach (string e in temp)
+                {
+                    destinoEstado1 = e;
+                }
+                HashSet<string> temp2 = GetTransicao(estado2, s).estado2;
+                foreach (string e in temp2)
+                {
+                    destinoEstado2 = e;
+                }
+                foreach(var classe in classes)
+                {
+                    if (classe.Contains(destinoEstado1))
+                        classeDoEstado1 = new HashSet<string>(classe);
+                    if (classe.Contains(destinoEstado2))
+                        classeDoEstado2 = new HashSet<string>(classe);
+                }
+                if (classeDoEstado1.Count > 0 && classeDoEstado2.Count > 0)
+                    if (classeDoEstado1.SetEquals(classeDoEstado2))
+                        mesmaClasse = true;
+                    else
+                        return false;
+            }
+            return mesmaClasse;
+        }
+
         public void showAutomato(Automato automato)
         {
             System.Console.WriteLine("transicoes");

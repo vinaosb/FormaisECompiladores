@@ -154,8 +154,19 @@ namespace Trabalho1
 
         public void createTree()
         {
-            arvore.parseRegex(arvore.initialNodo(regex));
+            string regex_fixed = addParenthesis(regex);
+            arvore.parseRegex(arvore.initialNodo(regex_fixed));
         }
+
+        public string addParenthesis(string regex)
+        {
+            //coloca parentesis antes do trecho final, (regex).#
+            //O primeiro nodo não pode ser '|', os parentesis faz com que o primeiro nodo seja '.'
+            regex = regex.Replace(".#","");
+            regex = "(" + regex + ")" + ".#";
+            return regex;
+        }
+
         public String readTree()
         {
             return arvore.listTree();
