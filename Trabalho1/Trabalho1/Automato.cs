@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Universidade Federal de Santa Catarina
+ * Departamento de Informática e Estatística
+ * Marcelo José Dias, Thiago Martendal Salvador, Vinícius Schwinden Berkenbrock
+ */
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,13 +12,20 @@ namespace Trabalho1
 {
     public class Automato
     {
+        // ID para mostrar na interface gráfica
         public int ID = 0;
+        // Estado Inicial do Autômato
         public string estadoInicial = "";
+        // Lista de estados finais do Autômato
         public HashSet<string> estadosFinais = new HashSet<string>();
+        // Lista de Transições do Autômato para cada estado
         public Dictionary<KeyTransicao, Transicao> transicoes = new Dictionary<KeyTransicao, Transicao>();
+        // Lista de Estados do Autômato
         public HashSet<string> estados = new HashSet<string>();
+        // Lista de Simbolos do Autômato
         public HashSet<string> simbolos = new HashSet<string>();
 
+        // Classe para representação de uma transição
         public class Transicao
         {
             public string estado1 = "";
@@ -25,6 +38,7 @@ namespace Trabalho1
             }
         }
 
+        // Classe para representação de uma chave para o dicionário de transições
         public struct KeyTransicao
         {
             public string estado;
@@ -37,17 +51,20 @@ namespace Trabalho1
             }
         }
 
+        // Construtor
         public Automato()
         {
             Random random = new Random();
             ID = random.Next(0, 2000);
         }
 
+        // Construtor com ID definido
         public Automato(int id)
         {
             ID = id;
         }
 
+        // Construtor a partir de um outro Autômato
         public Automato(int id, Automato a) : this(id)
         {
             simbolos.UnionWith(a.simbolos);
@@ -61,6 +78,7 @@ namespace Trabalho1
             }
         }
 
+        // Adicionar estado
         public void addEstado(string e)
         {
             if (e.Contains("+"))
@@ -88,6 +106,7 @@ namespace Trabalho1
             }
         }
 
+        // Ou cria uma nova transição ou adiciona o estado 2 em uma existente (indeterminizar)
         public Transicao GeraTransicao(string e1, string s, string e2)
         {
             Transicao t = new Transicao();
@@ -126,6 +145,7 @@ namespace Trabalho1
             return t;
         }
 
+        // Ou cria uma nova transição ou adiciona o estado 2 em uma existente (indeterminizar)
         public Transicao GeraTransicao(string e1, string s, HashSet<string> e2)
         {
             Transicao t = new Transicao();
@@ -164,6 +184,7 @@ namespace Trabalho1
             return t;
         }
 
+        // Adiciona uma nova transição no autômato
         public void addTransicao(Transicao t)
         {
             Transicao te = new Transicao();
@@ -188,6 +209,8 @@ namespace Trabalho1
 
             }
         }
+
+        // Adiciona uma nova transição no autômato
         public void addTransicao(string e1, string s, string e2)
         {
             Transicao t = GeraTransicao(e1, s, e2);
@@ -213,6 +236,7 @@ namespace Trabalho1
             }
         }
 
+        // Adiciona várias transições no autômato
         public void addTransicao(string e1, string s, HashSet<string> e2)
         {
             Transicao t = GeraTransicao(e1, s, e2);
@@ -238,6 +262,7 @@ namespace Trabalho1
             }
         }
 
+        // Adiciona simbolos no autômato
         public void addSimbolo(string s)
         {
             if (!simbolos.Contains(s))
@@ -246,6 +271,7 @@ namespace Trabalho1
             }
         }
 
+        // Pega uma transição existente
         public Transicao GetTransicao(string estado, string simbolo)
         {
             Transicao t = new Transicao();
@@ -260,6 +286,7 @@ namespace Trabalho1
             return t;
         }
 
+        // Limpa o autômato
         public void Clear()
         {
             transicoes.Clear();
@@ -269,6 +296,7 @@ namespace Trabalho1
             simbolos.Clear();
         }
 
+        // Faz a união de 2 autômatos
         public Automato Uniao(Automato a2)
         {
             Automato r = new Automato(ID * a2.ID, this);
@@ -292,6 +320,7 @@ namespace Trabalho1
             return r;
         }
 
+        // Concatena 2 autômatos
         public Automato Interseccao(Automato a2)
         {
             Automato r = new Automato(ID * a2.ID, this);
@@ -336,6 +365,7 @@ namespace Trabalho1
 
             return miniAuto;
         }
+
         public Automato eliminaEstadosInalcancaveis(Automato automato, Automato miniAuto, string estado)
         {
             foreach (string s in automato.simbolos)
