@@ -37,6 +37,12 @@ namespace Trabalho1
             }
         }
 
+        public Automato()
+        {
+            Random random = new Random();
+            ID = random.Next(0, 2000);
+        }
+
         public Automato(int id)
         {
             ID = id;
@@ -355,19 +361,25 @@ namespace Trabalho1
             elimEstMorto(ref automato, ref t, automato.estadoInicial);
             List<KeyTransicao> lk = new List<KeyTransicao>();
 
-            foreach (var v in t)
+            foreach (KeyValuePair<string, bool> v in t)
             {
                 if (v.Value == false)
                 {
                     automato.estados.Remove(v.Key);
-                    foreach (var tran in automato.transicoes)
+                    foreach (KeyValuePair<KeyTransicao, Transicao> tran in automato.transicoes)
+                    {
                         if (tran.Key.estado == v.Key)
+                        {
                             lk.Add(tran.Key);
+                        }
+                    }
                 }
             }
 
-            foreach (var l in lk)
+            foreach (KeyTransicao l in lk)
+            {
                 automato.transicoes.Remove(l);
+            }
 
             return automato;
         }
