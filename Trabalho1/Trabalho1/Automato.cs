@@ -312,7 +312,10 @@ namespace Trabalho1
 
             return r;
         }
-
+        //Minimização, invoca os tres passos da Minimização de AFD:
+        //1-Elimina Estados Inalcancaveis
+        //2-Elimina Estados Mortos
+        //3-Elimina Estados Equivalentes
         public Automato Minimizacao(Automato automato, int ID)
         {
             Automato miniAuto = new Automato(ID)
@@ -344,6 +347,8 @@ namespace Trabalho1
             }
             return miniAuto;
         }
+        //Metodo Elimina Estados Mortos.
+        //Todo estado que não alcança un estado final é removido.
         public Automato eliminaEstadosMortos(Automato automato)
         {
             List<string> temp = new List<string>();
@@ -372,6 +377,7 @@ namespace Trabalho1
             }
             return automato;
         }
+        //Metodo Elimina Estados Equivalentes.
         public Automato eliminaEstadosEquivalentes(Automato automato)
         {
            // System.Collections.Hashtable passos = new System.Collections.Hashtable();
@@ -436,7 +442,7 @@ namespace Trabalho1
             newAuto.criaTransicoes(classes, automato, relEstadoClasse);
             return newAuto;
         }
-
+        //Cria Transições para o novo Automato resultante das classes de equivalencia.
         private void criaTransicoes(HashSet<HashSet<string>> classes, Automato automato, Hashtable rel)
         {
             foreach(var classe in classes)
@@ -456,7 +462,8 @@ namespace Trabalho1
                 }
             }
         }
-
+        //Passo do algoritmo de classes de equivalencia.
+        //Verifica em que classe o estado se encaixa, caso contrario cria uma classe nova para o estado.
         private void alocaEstadoEmClasseNova(string e, HashSet<HashSet<string>> classesNovas, HashSet<HashSet<string>> classesAntigas)
         {
             bool newClass = true;
@@ -469,7 +476,7 @@ namespace Trabalho1
                         classe.Add(e);
                         newClass = false;
                     }
-                    break; //Só precisa compara com um estado da classe.
+                    break; //Só precisa comparar com um estado da classe.
                 }
             }
             if (newClass)
@@ -479,7 +486,7 @@ namespace Trabalho1
                 classesNovas.Add(novaCE);
             }
         }
-
+        //Verifica se dois estados estão na mesma classe de equivalência, de acordo as classes do passe anterior.
         private bool mesmaClasseEquivalencia(string estado1, string estado2, HashSet<HashSet<string>> classes)
         {
             bool mesmaClasse = false;
@@ -513,7 +520,7 @@ namespace Trabalho1
             }
             return mesmaClasse;
         }
-
+        //metodo para debugar o automato na caixa de saída.
         public void showAutomato(Automato automato)
         {
             System.Console.WriteLine("transicoes");
