@@ -37,6 +37,12 @@ namespace Trabalho1
             }
         }
 
+        public Automato()
+        {
+            Random random = new Random();
+            ID = random.Next(0, 2000);
+        }
+
         public Automato(int id)
         {
             ID = id;
