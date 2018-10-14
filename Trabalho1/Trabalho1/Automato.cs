@@ -36,9 +36,10 @@ namespace Trabalho1
             }
         }
 
-		public Automato() {
-			ID = (new Random()).Next(0,2000);
-		}
+        public Automato()
+        {
+            ID = (new Random()).Next(0, 2000);
+        }
 
         public Automato(int id)
         {
@@ -52,7 +53,7 @@ namespace Trabalho1
             estadoInicial = a.estadoInicial;
             estadosFinais.UnionWith(a.estadosFinais);
 
-            foreach (var t in a.transicoes)
+            foreach (KeyValuePair<KeyTransicao, Transicao> t in a.transicoes)
             {
                 transicoes.Add(t.Key, t.Value);
             }
@@ -70,7 +71,7 @@ namespace Trabalho1
             {
                 estadosFinais.Add(e.Split('*')[1]);
             }
-            
+
             //char[] delimiter = { '+', '*' };
             if (e.Contains("+") || e.Contains("*"))
             {
@@ -88,7 +89,7 @@ namespace Trabalho1
         public Transicao GeraTransicao(string e1, string s, string e2)
         {
             Transicao t = new Transicao();
-            KeyTransicao temp = new KeyTransicao( e1, s );
+            KeyTransicao temp = new KeyTransicao(e1, s);
             if (transicoes.ContainsKey(temp))
             {
                 transicoes.TryGetValue(temp, out t);
@@ -126,7 +127,7 @@ namespace Trabalho1
         public Transicao GeraTransicao(string e1, string s, HashSet<string> e2)
         {
             Transicao t = new Transicao();
-            KeyTransicao temp = new KeyTransicao (e1, s);
+            KeyTransicao temp = new KeyTransicao(e1, s);
             if (transicoes.ContainsKey(temp))
             {
                 transicoes.TryGetValue(temp, out t);
@@ -166,7 +167,7 @@ namespace Trabalho1
             Transicao te = new Transicao();
             if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
             {
-                KeyTransicao temp = new KeyTransicao(t.estado1, t.simbolo );
+                KeyTransicao temp = new KeyTransicao(t.estado1, t.simbolo);
                 if (!transicoes.ContainsKey(temp))
                 {
                     transicoes.Add(temp, t);
@@ -191,7 +192,7 @@ namespace Trabalho1
             Transicao te = new Transicao();
             if (estados.Contains(t.estado1) & simbolos.Contains(t.simbolo) & estados.IsSupersetOf(t.estado2))
             {
-                KeyTransicao temp = new KeyTransicao (t.estado1, t.simbolo);
+                KeyTransicao temp = new KeyTransicao(t.estado1, t.simbolo);
                 if (!transicoes.ContainsKey(temp))
                 {
                     transicoes.Add(temp, t);
@@ -246,8 +247,8 @@ namespace Trabalho1
         public Transicao GetTransicao(string estado, string simbolo)
         {
             Transicao t = new Transicao();
-            KeyTransicao temp = new KeyTransicao(estado,simbolo);
-            
+            KeyTransicao temp = new KeyTransicao(estado, simbolo);
+
 
             if (transicoes.ContainsKey(temp))
             {
@@ -274,7 +275,7 @@ namespace Trabalho1
             r.simbolos.UnionWith(a2.simbolos);
             r.simbolos.Add("&");
 
-            foreach (var tra in a2.transicoes)
+            foreach (KeyValuePair<KeyTransicao, Transicao> tra in a2.transicoes)
             {
                 r.addTransicao(tra.Value);
             }
@@ -295,7 +296,7 @@ namespace Trabalho1
             r.simbolos.UnionWith(a2.simbolos);
             r.estados.UnionWith(a2.estados);
 
-            foreach (var tra in a2.transicoes)
+            foreach (KeyValuePair<KeyTransicao, Transicao> tra in a2.transicoes)
             {
                 r.addTransicao(tra.Value);
             }
@@ -375,9 +376,9 @@ namespace Trabalho1
         public void showAutomato(Automato automato)
         {
             System.Console.WriteLine("transicoes");
-            foreach (var t in automato.transicoes)
+            foreach (KeyValuePair<KeyTransicao, Transicao> t in automato.transicoes)
             {
-                foreach (var e in t.Value.estado2)
+                foreach (string e in t.Value.estado2)
                 {
                     KeyTransicao k = t.Key;
                     System.Console.WriteLine("{0}, {1} -> {2}", k.estado, k.simbolo, e);
