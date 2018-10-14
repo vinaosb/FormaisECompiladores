@@ -58,21 +58,18 @@ namespace Trabalho1
                 {
                     Regular temp;
                     temp.Atual = trans.Value.estado1.ToArray()[0];
-                    temp.Proximos = new List<string>
-                    {
-                        trans.Value.simbolo + tra
-                    };
+                    temp.Proximos = new List<string>();
 
                     if (a.estadosFinais.Contains(tra))
                     {
-                        Regular temp2;
-                        temp2.Atual = trans.Value.estado1.ToCharArray()[0];
-                        temp2.Proximos = new List<string>
-                        {
-                            trans.Key.simbolo
-                        };
-                        AddProducao(temp2);
+                        temp.Proximos.Add(trans.Key.simbolo);
                     }
+                    else
+                    {
+                        temp.Proximos.Add(trans.Key.simbolo + tra);
+                    }
+
+                    AddProducao(temp);
                 }
             }
 
@@ -126,7 +123,11 @@ namespace Trabalho1
             {
                 Producoes.TryGetValue(p.Atual, out Regular temp);
 
-                temp.Proximos.Union(p.Proximos);
+                foreach (var prox in p.Proximos)
+                {
+                    if (!temp.Proximos.Contains(prox))
+                        temp.Proximos.Add(prox);
+                }
 
                 Producoes.Remove(p.Atual);
                 Producoes.Add(p.Atual, temp);
@@ -186,10 +187,9 @@ namespace Trabalho1
                         foreach (char c in t)
                         {
                             ret.addTransicao(Pr.Key.ToString(), c.ToString(), nt);
-                            ret.addTransicao(Pr.Key.ToString(), c.ToString(), novo);
                         }
                     }
-                    else if (nt.Length != 0)
+                    else if (nt.Length == 0)
                     {
                         foreach (char c in t)
                         {
