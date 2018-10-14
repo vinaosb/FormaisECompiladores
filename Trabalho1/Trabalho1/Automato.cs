@@ -396,7 +396,8 @@ namespace Trabalho1
                     simbolo = l.simbolo
                 };
                 automato.transicoes.Remove(kt);
-                automato.transicoes.Add(kt, l);
+                if (l.estado2.Count > 0)
+                    automato.transicoes.Add(kt, l);
             }
 
             return automato;
