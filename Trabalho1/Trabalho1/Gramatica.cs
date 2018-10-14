@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Universidade Federal de Santa Catarina
+ * Departamento de Informática e Estatística
+ * Marcelo José Dias
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 

@@ -354,6 +354,18 @@ namespace Trabalho1
             Dictionary<string, bool> t = new Dictionary<string, bool>();
             elimEstMorto(ref automato, ref t, automato.estadoInicial);
 
+            foreach(var v in t)
+            {
+                if (v.Value == false)
+                {
+                    automato.estados.Remove(v.Key);
+                    foreach (var tran in automato.transicoes)
+                        if (tran.Key.estado == v.Key)
+                            automato.transicoes.Remove(tran.Key);
+                }
+                    
+            }
+
             return automato;
         }
 
