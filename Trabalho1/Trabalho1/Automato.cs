@@ -356,11 +356,12 @@ namespace Trabalho1
             Automato miniAuto = new Automato(ID)
             {
                 estadoInicial = automato.estadoInicial,
-                simbolos = automato.simbolos
+                simbolos = automato.simbolos,
+                estadosFinais = automato.estadosFinais
             };
             miniAuto.addEstado(miniAuto.estadoInicial);
             miniAuto = eliminaEstadosInalcancaveis(automato, miniAuto, automato.estadoInicial);
-            miniAuto = eliminaEstadosMortos(miniAuto);
+            miniAuto = miniAuto.eliminaEstadosMortos(miniAuto);
             miniAuto = eliminaEstadosEquivalentes(miniAuto);
 
             return miniAuto;
