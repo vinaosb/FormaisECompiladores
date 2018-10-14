@@ -353,6 +353,7 @@ namespace Trabalho1
         {
             Dictionary<string, bool> t = new Dictionary<string, bool>();
             elimEstMorto(ref automato, ref t, automato.estadoInicial);
+            List<KeyTransicao> lk = new List<KeyTransicao>();
 
             foreach(var v in t)
             {
@@ -361,10 +362,12 @@ namespace Trabalho1
                     automato.estados.Remove(v.Key);
                     foreach (var tran in automato.transicoes)
                         if (tran.Key.estado == v.Key)
-                            automato.transicoes.Remove(tran.Key);
+                            lk.Add(tran.Key);
                 }
-                    
             }
+
+            foreach (var l in lk)
+                automato.transicoes.Remove(l);
 
             return automato;
         }
