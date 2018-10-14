@@ -1,4 +1,13 @@
-﻿using System;
+﻿// ################################################
+// Uiversidade Federal de Santa Catarina
+// INE5421 - Linguagens Formais e Compiladores
+// Trabalho 1 - 2018/2
+// Alunos:
+//      - Marcelo José Dias (15205398)
+//      - Thiago Martendal Salvador (16104594)
+//      - Vinícius Schwinden Berkenbrock (16100751)
+//#################################################
+using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
@@ -22,6 +31,7 @@ namespace Trabalho1
             arvore = new ArvoreSintatica();
             regex = text;
         }
+        //Metodo Principal para a transformaçao.
         public Automato transformaERemAFD()
         {
             Automato a = new Automato(1);
@@ -38,7 +48,7 @@ namespace Trabalho1
             return a;
         }
  
-
+        //Função que cria o Automato a partir da tabela posicao_seguinte do algoritmo Aho
         private Automato montaAutomato()
         {
             Automato automato = new Automato(1);
@@ -52,7 +62,7 @@ namespace Trabalho1
             automato = geraEstados(automato, stackEstados);
             return automato;
         }
-
+        //Gera os estados do Automato de acordo com a tabela posicao_seguinte no algoritmo Aho
         private Automato geraEstados(Automato automato, Stack<HashSet<int>> stack)
         {
             HashSet<int> estado1, estado2 = new HashSet<int>();
@@ -105,7 +115,9 @@ namespace Trabalho1
             }
             return automato;
         }
-
+        //Utiliza o Hash de Estados para gerar o novo nome do estado.
+        //Por exemplo a primeira posição da raiz da Arvore no algoritmo Aho, sendo o conjunto {1,2,3}
+        //Esse conjunto será o primeiro estado do automato, gera a string "123" como o nome do estado.
         private string geraNomeDoEstado(HashSet<int> estado)
         {
             string nome = "";
@@ -133,6 +145,8 @@ namespace Trabalho1
         //            arvore.posicao_seguinte.Add(i, "");
         //    }
         //}
+
+        //Metodo para Debug, apenas mostra a tabela Posicao_SEguinte na saida.
         private void showPosSeguinte()
         {
             //Console.WriteLine("enter");
@@ -151,13 +165,13 @@ namespace Trabalho1
             }
 
         }
-
+        //Chama o metodo pra Criar a Arvore Expandida da Expressão para o metodo Aho
         public void createTree()
         {
             string regex_fixed = addParenthesis(regex);
             arvore.parseRegex(arvore.initialNodo(regex_fixed));
         }
-
+        //Adiciona parentesis na expressao regular para funcionar com o metodo Aho.
         public string addParenthesis(string regex)
         {
             //coloca parentesis antes do trecho final, (regex).#
@@ -166,7 +180,7 @@ namespace Trabalho1
             regex = "(" + regex + ")" + ".#";
             return regex;
         }
-
+        //Chama metodo que percorre a arvore fazendo marcações necessárias para o algoritmo de conversão.
         public String readTree()
         {
             return arvore.listTree();
@@ -194,11 +208,12 @@ namespace Trabalho1
                 public HashSet<int> ultima_posicao = new HashSet<int>();
                 internal bool anulavel;
             }
-
+            //Identifica se Nodo é Folha, ou seja indicador.
             public bool isLeaf(Nodo nodo)
             {
                 return (nodo.nodoEsquerda == null && nodo.nodoDireita == null);
             }
+            //Cria novo Nodo na Arvore
             public Nodo createLeaf(Nodo nodo)
             {
                 Nodo n = new Nodo();
@@ -207,6 +222,9 @@ namespace Trabalho1
                     raiz = nodo;
                 return n;
             }
+            //Recebe em que posicao da regex fazer o split e para cada novo termo chama o parse novamente
+            //Ex: (a|b).c, pos=5, separa em dois termos: (a|b) e c, e para cada chama o parse
+            //Na segunda chamada o (a|b) será dividido novamente a patir do simbolo |
             public void splitTerm(Nodo nodoOrigem, String termo, int pos)
             {
                 Nodo folhaEsquerda = new Nodo();
@@ -223,6 +241,7 @@ namespace Trabalho1
                     parseRegex(folhaDireita);
                 }
             }
+            //Identifica simbolo de maior relevancia, e separa tudo à esquerda e à direita para ser os filhos.
             public void parseRegex(Nodo nodoOrigem) {
                 int indexBar = 0, indexConcat = 0;
                 //Nodo newNodo = new Nodo();
@@ -253,7 +272,9 @@ namespace Trabalho1
 
                 
             }
-
+            //Utiliza esse metodo para saber qual será o primeiro Novo na Arvore
+            //Ex: (a.b.c)|(a|b)* é interpretado como ( )|( )*
+            //Assim sabemos que o '|' será o primeiro Nodo desse termo e os filhos serão ( ) e ( )*
             private string ignoreBetweenParenthesis(string termo)
             {
                 String novoTermo = "";
@@ -278,13 +299,20 @@ namespace Trabalho1
                 }
                 return novoTermo;
             }
-
+            //Após a divisão do metodo acima, ele remove os parentesis externos para continuar o parse.
+            //Ex: Continuando o exemplo, o filho esquerdo é (a.b.c), transforma em a.b.c
             public String removeExternalParenthesis(String text)
             {
                 if (text.First() == '(' && text.Last() == ')')
                     return text.Substring(1, text.Length - 2);
                 return text;
             }
+            //Metodo percorre a Arvore Sintatica toda, fazendo as seguintes funções:
+            //1-Identifica os indicadores(nodos folhas)
+            //2-Seta se os indicadores são anulaveis ou não
+            //3-Identifica a primeira_posicao e ultima_posicao para os indicadores
+            //4-Identifica quais os simbolos para o Automato
+            //5-Insere Nodos não folha em uma pilha.
             public void readNodo(Nodo nodo)
             {
                 if (isLeaf(nodo))
@@ -309,6 +337,7 @@ namespace Trabalho1
                 if (nodo.valor!="*")
                     readNodo(nodo.nodoDireita);
             }
+            //Chama o primeiro Nodo da Arvore, e percorre toda ela
             public String listTree()
             {
                 result = "";
@@ -316,17 +345,19 @@ namespace Trabalho1
                 readNodo(raiz);
                 return result;
             }
+            //Inclui os Nodos Internos em uma pilha para serem percorridos na forma depth-first.
             public void copyStack()
             {
                 NodosPosicaoSeguinte = new Stack<Nodo>(NodosInternos.Reverse());
             }
+            //O Primeiro Novo será e expressão inteira
             public Nodo initialNodo(String regex)
             {
                 Nodo nodo = new Nodo();
                 nodo.valor = regex;
                 return nodo;
             }
-
+            //Metodo que chama as funções para preencher as tabelas de Anulavel, Primeira Posicao e Ultima Posicao
             internal void calculaPrimeiraEUltimaPosicao()
             {
                 Nodo auxNodo = new Nodo();
@@ -338,6 +369,7 @@ namespace Trabalho1
                     calculaUltimaPos(auxNodo);
                 }
             }
+            //Calcula se um Nodo Interno é Anulavel ou não. (Os indicadores são calculados em ReadNodo() )
             public void calculaAnulavel(Nodo nodo)
             {
                 switch (nodo.valor)
@@ -354,6 +386,7 @@ namespace Trabalho1
                 }
 
             }
+            //Calcula o valor da Primeira Posicao para um Nodo Interno. (Os indicadores são calculados em ReadNodo() )
             public void calculaPrimeiraPos(Nodo nodo)
             {
                 switch (nodo.valor)
@@ -372,6 +405,7 @@ namespace Trabalho1
                         break;
                 }
             }
+            //Calcula o valor da Ultima Posicao para um Nodo Interno. (Os indicadores são calculados em ReadNodo() )
             public void calculaUltimaPos(Nodo nodo)
             {
                 switch (nodo.valor)
@@ -390,7 +424,8 @@ namespace Trabalho1
                         break;
                 }
             }
-
+            //Retira um Nodo da Pilha para montar a tabela Posição Seguinte
+            //Só para nó-cat e nó-rep
             internal void calculaTabelaPosicaoSeguinte()
             {
                 Nodo auxNodo = new Nodo();
@@ -403,7 +438,7 @@ namespace Trabalho1
                     calculaPosicaoSeguinte(auxNodo);
                 }
             }
-
+            //Lê nodo e identifica se é nó-cat ou nó-rep e já interpreta algoritmo Aho
             private void calculaPosicaoSeguinte(Nodo nodo)
             {
                 Console.WriteLine("calculaPosicaoSeguinte");
@@ -419,7 +454,7 @@ namespace Trabalho1
                         break;
                 }
             }
-
+            //Inclui as posições nos Indicadores da Tabela de Posição Seguinte de acordo com Algoritmo Aho.
             private void incluiPosicoesNosIndicadores(HashSet<int> posicoes, HashSet<int> indicadores)
             {
                 foreach(var i in indicadores)
