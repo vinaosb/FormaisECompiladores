@@ -396,6 +396,7 @@ namespace Trabalho1
             Dictionary<string, bool> t = new Dictionary<string, bool>();
             elimEstMorto(ref automato, ref t, automato.estadoInicial);
             List<KeyTransicao> lk = new List<KeyTransicao>();
+            List<Transicao> li = new List<Transicao>();
 
             foreach (KeyValuePair<string, bool> v in t)
             {
@@ -408,6 +409,12 @@ namespace Trabalho1
                         {
                             lk.Add(tran.Key);
                         }
+                        if (tran.Value.estado2.Contains(v.Key))
+                        {
+                            Transicao temp = tran.Value;
+                            temp.estado2.Remove(v.Key);
+                            li.Add(temp);
+                        }
                     }
                 }
             }
@@ -415,6 +422,18 @@ namespace Trabalho1
             foreach (KeyTransicao l in lk)
             {
                 automato.transicoes.Remove(l);
+            }
+
+            foreach (Transicao l in li)
+            {
+                KeyTransicao kt = new KeyTransicao
+                {
+                    estado = l.estado1,
+                    simbolo = l.simbolo
+                };
+                automato.transicoes.Remove(kt);
+                if (l.estado2.Count > 0)
+                    automato.transicoes.Add(kt, l);
             }
 
             return automato;
