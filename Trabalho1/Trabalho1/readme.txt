@@ -25,3 +25,5 @@ AF:
 	Gera diretamente a tabela de transições e adiciona as transiçoes necessárias automaticamente
 
 ER:
+	Expressões sempre utilizando sinal de concatenação '.' e terminando com '#'.
+	Exemplo: (a|b)*.b.(a|b).#
