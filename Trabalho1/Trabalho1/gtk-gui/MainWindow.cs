@@ -57,6 +57,10 @@ public partial class MainWindow
 	
 	private global::Gtk.Action ExpressoAction1;
 	
+	private global::Gtk.Action ConverterGramticaParaAFNDAction;
+	
+	private global::Gtk.Action ConverterAFDEmGramticaAction;
+	
 	private global::Gtk.VBox vbox2;
 	
 	private global::Gtk.MenuBar menubar2;
@@ -187,6 +191,12 @@ public partial class MainWindow
 		this.ExpressoAction1 = new global::Gtk.Action ("ExpressoAction1", global::Mono.Unix.Catalog.GetString ("Expressão"), null, null);
 		this.ExpressoAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("Expressão");
 		w1.Add (this.ExpressoAction1, null);
+		this.ConverterGramticaParaAFNDAction = new global::Gtk.Action ("ConverterGramticaParaAFNDAction", global::Mono.Unix.Catalog.GetString ("Converter Gramática para AFND"), null, null);
+		this.ConverterGramticaParaAFNDAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Converter Gramática para AFND");
+		w1.Add (this.ConverterGramticaParaAFNDAction, null);
+		this.ConverterAFDEmGramticaAction = new global::Gtk.Action ("ConverterAFDEmGramticaAction", global::Mono.Unix.Catalog.GetString ("Converter AFD em Gramática"), null, null);
+		this.ConverterAFDEmGramticaAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Converter AFD em Gramática");
+		w1.Add (this.ConverterAFDEmGramticaAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -197,7 +207,7 @@ public partial class MainWindow
 		this.vbox2.Name = "vbox2";
 		this.vbox2.Spacing = 6;
 		// Container child vbox2.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><menubar name='menubar2'><menu name='ArquivoAction1' action='ArquivoAction1'><menu name='AbrirAction1' action='AbrirAction1'><menuitem name='AutomatoAction' action='AutomatoAction'/><menuitem name='GramaticaAction' action='GramaticaAction'/><menuitem name='ExpressoAction1' action='ExpressoAction1'/></menu><menu name='SalvarAction1' action='SalvarAction1'><menuitem name='AutomatoAction1' action='AutomatoAction1'/><menuitem name='GramticaAction' action='GramticaAction'/><menuitem name='ExpressoAction' action='ExpressoAction'/></menu></menu><menu name='EditarAction1' action='EditarAction1'><menuitem name='DeterminizarAutmatoAction' action='DeterminizarAutmatoAction'/><menuitem name='UnirAutmatosAction' action='UnirAutmatosAction'/><menuitem name='InterseccionarAutmatosAction' action='InterseccionarAutmatosAction'/><menuitem name='MinimizarAutmatoAction' action='MinimizarAutmatoAction'/><menuitem name='ConverterEREmAFDAction' action='ConverterEREmAFDAction'/></menu><menu name='InserirAction' action='InserirAction'><menuitem name='AutmatoAction' action='AutmatoAction'/><menuitem name='ExpressoRegularAction' action='ExpressoRegularAction'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubar2'><menu name='ArquivoAction1' action='ArquivoAction1'><menu name='AbrirAction1' action='AbrirAction1'><menuitem name='AutomatoAction' action='AutomatoAction'/><menuitem name='GramaticaAction' action='GramaticaAction'/><menuitem name='ExpressoAction1' action='ExpressoAction1'/></menu><menu name='SalvarAction1' action='SalvarAction1'><menuitem name='AutomatoAction1' action='AutomatoAction1'/><menuitem name='GramticaAction' action='GramticaAction'/><menuitem name='ExpressoAction' action='ExpressoAction'/></menu></menu><menu name='EditarAction1' action='EditarAction1'><menuitem name='DeterminizarAutmatoAction' action='DeterminizarAutmatoAction'/><menuitem name='UnirAutmatosAction' action='UnirAutmatosAction'/><menuitem name='InterseccionarAutmatosAction' action='InterseccionarAutmatosAction'/><menuitem name='MinimizarAutmatoAction' action='MinimizarAutmatoAction'/><menuitem name='ConverterEREmAFDAction' action='ConverterEREmAFDAction'/><menuitem name='ConverterGramticaParaAFNDAction' action='ConverterGramticaParaAFNDAction'/><menuitem name='ConverterAFDEmGramticaAction' action='ConverterAFDEmGramticaAction'/></menu><menu name='InserirAction' action='InserirAction'><menuitem name='AutmatoAction' action='AutmatoAction'/></menu></menubar></ui>");
 		this.menubar2 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar2")));
 		this.menubar2.Name = "menubar2";
 		this.vbox2.Add (this.menubar2);
@@ -209,7 +219,7 @@ public partial class MainWindow
 		this.notebook1 = new global::Gtk.Notebook ();
 		this.notebook1.CanFocus = true;
 		this.notebook1.Name = "notebook1";
-		this.notebook1.CurrentPage = 2;
+		this.notebook1.CurrentPage = 0;
 		// Container child notebook1.Gtk.Notebook+NotebookChild
 		this.vbox3 = new global::Gtk.VBox ();
 		this.vbox3.Name = "vbox3";
@@ -377,7 +387,10 @@ public partial class MainWindow
 		this.GramaticaAction.Activated += new global::System.EventHandler (this.OnGramaticaActionActivated);
 		this.UnirAutmatosAction.Activated += new global::System.EventHandler (this.OnUnirAutmatosActionActivated);
 		this.InterseccionarAutmatosAction.Activated += new global::System.EventHandler (this.OnInterseccionarAutmatosActionActivated);
+		this.MinimizarAutmatoAction.Activated += new global::System.EventHandler (this.OnMinimizarAutmatoActionActivated);
 		this.ConverterEREmAFDAction.Activated += new global::System.EventHandler (this.OnConverterEREmAFDActionActivated);
+		this.ConverterGramticaParaAFNDAction.Activated += new global::System.EventHandler (this.OnConverterGramticaParaAFNDActionActivated);
+		this.ConverterAFDEmGramticaAction.Activated += new global::System.EventHandler (this.OnConverterAFDEmGramticaActionActivated);
 		this.combobox1.Changed += new global::System.EventHandler (this.OnCombobox1Changed);
 		this.button6.Clicked += new global::System.EventHandler (this.OnButton6Clicked);
 		this.combobox2.Changed += new global::System.EventHandler (this.OnCombobox2Changed);
