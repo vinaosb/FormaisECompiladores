@@ -27,3 +27,5 @@ AF:
 ER:
 	Expressões sempre utilizando sinal de concatenação '.' e terminando com '#'.
 	Exemplo: (a|b)*.b.(a|b).#
+	+ e ? não são permitidos.
+
