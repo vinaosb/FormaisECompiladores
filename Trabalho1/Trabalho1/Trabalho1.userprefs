@@ -1,12 +1,13 @@
 ﻿<Properties StartupItem="Trabalho1.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ExpressaoRegular.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MainWindow.cs">
     <Files>
-      <File FileName="MainWindow.cs" Line="9" Column="1" />
-      <File FileName="ExpressaoRegular.cs" Line="4" Column="21" />
-      <File FileName="MinimizarAutomato.cs" Line="8" Column="3" />
-      <File FileName="NovoAutomato.cs" Line="1" Column="3" />
-      <File FileName="ConverterAFDGR.cs" Line="30" Column="24" />
+      <File FileName="MainWindow.cs" Line="230" Column="4" />
+      <File FileName="ExpressaoRegular.cs" Line="1" Column="1" />
+      <File FileName="MinimizarAutomato.cs" Line="1" Column="1" />
+      <File FileName="NovoAutomato.cs" Line="1" Column="1" />
+      <File FileName="ConverterAFDGR.cs" Line="1" Column="1" />
+      <File FileName="Automato.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

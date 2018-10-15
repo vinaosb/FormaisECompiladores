@@ -247,12 +247,12 @@ public partial class MainWindow: Gtk.Window {
 		foreach (var t in temp.transicoes) {
 			string estado = "";
 			foreach (string s in temp.estadosFinais) {
-				if (t.Value.estado1 == temp.estadoInicial) {
+				if (t.Value.estado1 == temp.estadoInicial && t.Value.estado1 == s) {
+					estado = "+*" + t.Value.estado1; //Estado inicial e final
+				} else if (t.Value.estado1 == temp.estadoInicial) {
 					estado = "+" + t.Value.estado1; //Estado inicial
 				} else if (t.Value.estado1 == s) {
 					estado = "*" + t.Value.estado1; //Estado final
-				} else if (t.Value.estado1 == temp.estadoInicial && t.Value.estado1 == s) {
-					estado = "+*" + t.Value.estado1; //Estado inicial e final
 				} else {
 					estado = t.Value.estado1; //Estado comum
 				}
@@ -262,12 +262,12 @@ public partial class MainWindow: Gtk.Window {
 			foreach (string h in t.Value.estado2) {
 				string estado2 = "";
 				foreach (string s in temp.estadosFinais) {
-					if (h == temp.estadoInicial) {
+					if (h == temp.estadoInicial && h == s) {
+						estado2 = "+*" + h;
+					} else if (h == temp.estadoInicial) {
 						estado2 = "+" + h;
 					} else if (h == s) {
 						estado2 = "*" + h;
-					} else if (h == temp.estadoInicial && h == s) {
-						estado2 = "+*" + h;
 					} else {
 						estado2 = h;
 					}
@@ -410,7 +410,9 @@ public partial class MainWindow: Gtk.Window {
 		foreach (var t in temp.transicoes) {
 			string estado = "";
 			foreach (string s in temp.estadosFinais) {
-				if (t.Value.estado1 == temp.estadoInicial) {
+				if (t.Value.estado1 == temp.estadoInicial && t.Value.estado1 == s) {
+					estado = "+*" + t.Value.estado1;
+				} else if (t.Value.estado1 == temp.estadoInicial) {
 					estado = "+" + t.Value.estado1;
 				} else if (t.Value.estado1 == s) {
 					estado = "*" + t.Value.estado1;
@@ -424,12 +426,12 @@ public partial class MainWindow: Gtk.Window {
 				Console.WriteLine (t.Value.estado1+" "+t.Value.simbolo+" "+h);
 				string estado2 = "";
 				foreach (string s in temp.estadosFinais) {
-					if (h == temp.estadoInicial) {
+					if (h == temp.estadoInicial && h == s) {
+						estado2 = "+*" + h;
+					} else if (h == temp.estadoInicial) {
 						estado2 = "+" + h;
 					} else if (h == s) {
 						estado2 = "*" + h;
-					} else if (h == temp.estadoInicial && h == s) {
-						estado2 = "+*" + h;
 					} else {
 						estado2 = h;
 					}
@@ -476,7 +478,9 @@ public partial class MainWindow: Gtk.Window {
 		foreach (var t in temp.transicoes) {
 			string estado = "";
 			foreach (string s in temp.estadosFinais) {
-				if (t.Value.estado1 == temp.estadoInicial) {
+				if (t.Value.estado1 == temp.estadoInicial && t.Value.estado1 == s) {
+					estado = "+*" + t.Value.estado1;
+				} else if (t.Value.estado1 == temp.estadoInicial) {
 					estado = "+" + t.Value.estado1;
 				} else if (t.Value.estado1 == s) {
 					estado = "*" + t.Value.estado1;
@@ -489,12 +493,12 @@ public partial class MainWindow: Gtk.Window {
 			foreach (string h in t.Value.estado2) {
 				string estado2 = "";
 				foreach (string s in temp.estadosFinais) {
-					if (h == temp.estadoInicial) {
+					if (h == temp.estadoInicial && h == s) {
+						estado2 = "+*" + h;
+					} else if (h == temp.estadoInicial) {
 						estado2 = "+" + h;
 					} else if (h == s) {
 						estado2 = "*" + h;
-					} else if (h == temp.estadoInicial && h == s) {
-						estado2 = "+*" + h;
 					} else {
 						estado2 = h;
 					}
@@ -536,7 +540,10 @@ public partial class MainWindow: Gtk.Window {
 		foreach (var t in temp.transicoes) {
 			string estado = "";
 			foreach (string s in temp.estadosFinais) {
-				if (t.Value.estado1 == temp.estadoInicial) {
+				Console.WriteLine (s);
+				if (t.Value.estado1 == temp.estadoInicial && t.Value.estado1 == s) {
+					estado = "+*" + t.Value.estado1;
+				} else if (t.Value.estado1 == temp.estadoInicial) {
 					estado = "+" + t.Value.estado1;
 				} else if (t.Value.estado1 == s) {
 					estado = "*" + t.Value.estado1;
@@ -549,12 +556,12 @@ public partial class MainWindow: Gtk.Window {
 			foreach (string h in t.Value.estado2) {
 				string estado2 = "";
 				foreach (string s in temp.estadosFinais) {
-					if (h == temp.estadoInicial) {
+					if (h == temp.estadoInicial && h == s) {
+						estado2 = "+*" + h;
+					} else if (h == temp.estadoInicial) {
 						estado2 = "+" + h;
 					} else if (h == s) {
 						estado2 = "*" + h;
-					} else if (h == temp.estadoInicial && h == s) {
-						estado2 = "+*" + h;
 					} else {
 						estado2 = h;
 					}
@@ -609,7 +616,9 @@ public partial class MainWindow: Gtk.Window {
 		foreach (var t in temp.transicoes) {
 			string estado = "";
 			foreach (string s in temp.estadosFinais) {
-				if (t.Value.estado1 == temp.estadoInicial) {
+				if (t.Value.estado1 == temp.estadoInicial && t.Value.estado1 == s) {
+					estado = "+*" + t.Value.estado1;
+				} else if (t.Value.estado1 == temp.estadoInicial) {
 					estado = "+" + t.Value.estado1;
 				} else if (t.Value.estado1 == s) {
 					estado = "*" + t.Value.estado1;
@@ -622,12 +631,12 @@ public partial class MainWindow: Gtk.Window {
 			foreach (string h in t.Value.estado2) {
 				string estado2 = "";
 				foreach (string s in temp.estadosFinais) {
-					if (h == temp.estadoInicial) {
+					if (h == temp.estadoInicial && h == s) {
+						estado2 = "+*" + h;
+					} else if (h == temp.estadoInicial) {
 						estado2 = "+" + h;
 					} else if (h == s) {
 						estado2 = "*" + h;
-					} else if (h == temp.estadoInicial && h == s) {
-						estado2 = "+*" + h;
 					} else {
 						estado2 = h;
 					}
@@ -662,6 +671,7 @@ public partial class MainWindow: Gtk.Window {
 	public void converterGRAFND(int indice) {
 		Gramatica GR = gramaticas [indice]; //Retira a gramática da lista
 		Automato temp = GR.GetAutomato (); //Converte a gramática em autômato
+		temp.showAutomato(temp);
 		/* Código abaixo já comentado anteriormente */
 		List<string> estados1 = new List<string>();
 		List<string> simbolos = new List<string>();
@@ -671,7 +681,9 @@ public partial class MainWindow: Gtk.Window {
 		foreach (var t in temp.transicoes) {
 			string estado = "";
 			foreach (string s in temp.estadosFinais) {
-				if (t.Value.estado1 == temp.estadoInicial) {
+				if (t.Value.estado1 == temp.estadoInicial && t.Value.estado1 == s) {
+					estado = "+*" + t.Value.estado1;
+				} else if (t.Value.estado1 == temp.estadoInicial) {
 					estado = "+" + t.Value.estado1;
 				} else if (t.Value.estado1 == s) {
 					estado = "*" + t.Value.estado1;
@@ -684,12 +696,12 @@ public partial class MainWindow: Gtk.Window {
 			foreach (string h in t.Value.estado2) {
 				string estado2 = "";
 				foreach (string s in temp.estadosFinais) {
-					if (h == temp.estadoInicial) {
+					if (h == temp.estadoInicial && h == s) {
+						estado2 = "+*" + h;
+					} else if (h == temp.estadoInicial) {
 						estado2 = "+" + h;
 					} else if (h == s) {
 						estado2 = "*" + h;
-					} else if (h == temp.estadoInicial && h == s) {
-						estado2 = "+*" + h;
 					} else {
 						estado2 = h;
 					}
