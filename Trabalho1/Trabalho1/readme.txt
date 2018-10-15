@@ -19,7 +19,7 @@ Nelas ele deixa realizar:
 
 Notações Usadas para gerar:
 GR:
-	S -> A | aA | bB| a
+	S->A|aA|bB|a
 
 AF:
 	Gera diretamente a tabela de transições e adiciona as transiçoes necessárias automaticamente
