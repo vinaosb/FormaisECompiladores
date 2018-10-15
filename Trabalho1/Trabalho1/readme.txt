@@ -5,7 +5,7 @@ Marcelo José Dias, Thiago Martendal Salvador, Vinícius Schwinden Berkenbrock
 Pré requisitos do programa
 
 O programa foi feito em C# usando Mono para compilar
-Deve rodar em qualquer sistema operacional, caso não funcione, favor instale o runtime do Mono
+Deve rodar em qualquer sistema operacional (TESTADO EM LINUX), caso não funcione, favor instale o runtime do Mono
 
 O programa possui uma interface gráfica que deixa gerar Autômatos Finitos, Gramáticas Regulares e Expressões Regulares
 
